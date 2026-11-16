@@ -1,0 +1,443 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Catálogo Adaliah</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant:ital,wght@0,400;0,500;1,400;1,500&family=Jost:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    /* Layout: coluna única no celular (foto alta 4:5, nome, preço, botão); 3 colunas em tela larga. Mundo único, claro e azul. */
+    color-scheme: light;
+    --ceu: #EDF2F8;        /* fundo */
+    --nuvem: #FFFFFF;      /* cartões */
+    --bruma: #D5E1EE;      /* linhas e fundos de foto */
+    --azul: #5A84B4;       /* acento */
+    --anil: #1E3350;       /* texto */
+    --anil-suave: #5C6F88; /* texto secundário */
+    --display: "Cormorant", "Cormorant Garamond", Georgia, serif;
+    --corpo: "Jost", "Helvetica Neue", Arial, sans-serif;
+  }
+  * { box-sizing: border-box; margin: 0; }
+  html { -webkit-text-size-adjust: 100%; }
+  body {
+    background: var(--ceu);
+    color: var(--anil);
+    font-family: var(--corpo);
+    font-weight: 300;
+    font-size: 16px;
+    line-height: 1.5;
+  }
+  img { max-width: 100%; display: block; }
+  a { color: inherit; }
+  a:focus-visible, button:focus-visible { outline: 2px solid var(--anil); outline-offset: 3px; }
+
+  .pagina { max-width: 1080px; margin: 0 auto; padding: 0 20px 56px; }
+
+  header { padding: 28px 0 8px; display: flex; align-items: baseline; justify-content: space-between; gap: 16px; }
+  .marca { font-family: var(--display); font-size: 34px; font-weight: 500; letter-spacing: 0.02em; line-height: 1; }
+  .insta { font-size: 13px; letter-spacing: 0.08em; color: var(--anil-suave); text-decoration: none; border-bottom: 1px solid var(--bruma); padding-bottom: 2px; }
+
+  .abertura { padding: 36px 0 28px; border-bottom: 1px solid var(--bruma); }
+  .abertura p.linha { font-size: 12px; letter-spacing: 0.22em; text-transform: uppercase; color: var(--azul); font-weight: 500; }
+  .abertura h1 { font-family: var(--display); font-weight: 400; font-size: clamp(38px, 9vw, 64px); line-height: 1.02; margin-top: 10px; text-wrap: balance; }
+  .abertura h1 em { font-style: italic; color: var(--azul); }
+  .abertura p.texto { margin-top: 14px; max-width: 34em; color: var(--anil-suave); }
+
+  .grade { display: grid; grid-template-columns: 1fr; gap: 36px; padding-top: 32px; }
+  @media (min-width: 760px) { .grade { grid-template-columns: repeat(3, 1fr); gap: 28px; } }
+
+  .peca { display: flex; flex-direction: column; gap: 14px; }
+  .foto { position: relative; aspect-ratio: 2 / 3; background: var(--bruma); border-radius: 2px; overflow: hidden; }
+  .foto img { width: 100%; height: 100%; object-fit: cover; }
+  .foto .sem-foto { position: absolute; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 6px; color: var(--anil-suave); background: linear-gradient(160deg, #E3EBF4 0%, #CBD9E9 100%); }
+  .sem-foto span { font-family: var(--display); font-style: italic; font-size: 26px; color: var(--anil); }
+  .sem-foto small { font-size: 12px; letter-spacing: 0.14em; text-transform: uppercase; }
+  .selo { position: absolute; left: 12px; top: 12px; background: var(--nuvem); color: var(--anil); font-size: 11px; letter-spacing: 0.16em; text-transform: uppercase; font-weight: 500; padding: 6px 10px; border-radius: 999px; }
+
+  .dados { display: flex; align-items: baseline; justify-content: space-between; gap: 12px; }
+  .dados h2 { font-family: var(--display); font-weight: 500; font-size: 28px; line-height: 1.1; }
+  .preco { font-size: 17px; font-weight: 400; font-variant-numeric: tabular-nums; white-space: nowrap; }
+  .descricao { color: var(--anil-suave); font-size: 16px; margin-top: -6px; }
+
+  .miniaturas { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 8px; margin-top: -4px; }
+  .miniaturas button { padding: 0; border: 0; background: var(--bruma); aspect-ratio: 2 / 3; border-radius: 2px; overflow: hidden; cursor: pointer; opacity: .6; outline: 2px solid transparent; outline-offset: 2px; }
+  .miniaturas button[aria-pressed="true"] { opacity: 1; outline-color: var(--anil); }
+  .miniaturas img { width: 100%; height: 100%; object-fit: cover; }
+  .detalhes { list-style: none; padding: 0; display: flex; flex-wrap: wrap; gap: 8px; }
+  .detalhes li { font-size: 13px; letter-spacing: 0.04em; padding: 6px 12px; border: 1px solid var(--bruma); border-radius: 999px; color: var(--anil); background: var(--nuvem); }
+  .pedir.espera { background: transparent; color: var(--anil-suave); border: 1px dashed var(--bruma); }
+  .pedir.espera:hover { background: transparent; }
+  .quadro { position: absolute; inset: 0; }
+  .miniaturas[hidden] { display: none; }
+  .cores { display: grid; gap: 8px; }
+  .cores .rotulo { font-size: 12px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--anil-suave); }
+  .cores .rotulo strong { color: var(--anil); font-weight: 500; }
+  .cores .lista { display: flex; flex-wrap: wrap; gap: 8px; }
+  .cores button { font: inherit; font-size: 15px; font-weight: 400; color: var(--anil); display: inline-flex; align-items: center; gap: 10px; min-height: 44px; padding: 6px 16px 6px 8px; background: var(--nuvem); border: 1px solid var(--bruma); border-radius: 999px; cursor: pointer; }
+  .cores button[aria-pressed="true"] { border-color: var(--anil); box-shadow: inset 0 0 0 1px var(--anil); }
+  .cores .amostra { width: 28px; height: 28px; border-radius: 50%; border: 1px solid rgba(30, 51, 80, .18); }
+  .tamanhos[hidden] { display: none; }
+  .tamanhos { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; }
+  .tamanhos .rotulo { font-size: 12px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--anil-suave); margin-right: 4px; }
+  .tamanhos button { font: inherit; font-size: 14px; font-weight: 400; min-width: 44px; height: 40px; padding: 0 12px; background: transparent; color: var(--anil); border: 1px solid var(--bruma); border-radius: 999px; cursor: pointer; }
+  .tamanhos button[aria-pressed="true"] { background: var(--anil); border-color: var(--anil); color: var(--nuvem); }
+
+  .pedir { display: flex; align-items: center; justify-content: center; gap: 10px; min-height: 52px; padding: 12px 18px; background: var(--azul); color: #fff; text-decoration: none; font-weight: 500; font-size: 15px; letter-spacing: 0.04em; border-radius: 999px; transition: background .2s; }
+  .pedir:hover { background: #4A729F; }
+  .pedir svg { width: 20px; height: 20px; flex: none; }
+  @media (prefers-reduced-motion: reduce) { .pedir { transition: none; } }
+
+  .mais { margin-top: 56px; padding-top: 28px; border-top: 1px solid var(--bruma); display: grid; gap: 4px; }
+  .mais[hidden], .grade[hidden] { display: none; }
+  .mais h2 { font-family: var(--display); font-weight: 400; font-size: clamp(30px, 7vw, 44px); line-height: 1.05; }
+  .mais p { color: var(--anil-suave); }
+  .frete { margin-top: 48px; padding: 24px; background: var(--nuvem); border-radius: 2px; display: grid; grid-template-columns: minmax(0, 1fr); gap: 14px; }
+  .frete h3 { font-family: var(--display); font-weight: 500; font-size: 24px; }
+  .frete p.ajuda { color: var(--anil-suave); max-width: 40em; margin-top: -8px; }
+  .frete form { display: flex; flex-wrap: wrap; gap: 10px; }
+  .frete label { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); }
+  .frete input { font: inherit; font-size: 18px; font-weight: 400; letter-spacing: 0.06em; font-variant-numeric: tabular-nums; color: var(--anil); flex: 1 1 160px; min-width: 0; height: 52px; padding: 0 18px; border: 1px solid var(--bruma); border-radius: 999px; background: var(--ceu); }
+  .frete input::placeholder { color: #93A3B8; }
+  .frete input:focus-visible { outline: 2px solid var(--anil); outline-offset: 2px; }
+  .frete form button { font: inherit; font-weight: 500; font-size: 15px; letter-spacing: 0.04em; height: 52px; padding: 0 26px; border: 0; border-radius: 999px; background: var(--anil); color: #fff; cursor: pointer; flex: 0 0 auto; }
+  .resultado { border-top: 1px solid var(--bruma); padding-top: 14px; display: grid; gap: 2px; }
+  .resultado[hidden] { display: none; }
+  .resultado .local { font-size: 12px; letter-spacing: 0.16em; text-transform: uppercase; color: var(--azul); font-weight: 500; }
+  .opcoes { display: grid; gap: 10px; margin: 8px 0 6px; }
+  .opcao { font: inherit; text-align: left; color: var(--anil); display: grid; grid-template-columns: 22px minmax(0, 1fr) auto; align-items: center; gap: 12px; padding: 14px 16px; background: var(--ceu); border: 1px solid var(--bruma); border-radius: 12px; cursor: pointer; }
+  .opcao .bolinha { width: 20px; height: 20px; border-radius: 50%; border: 1.5px solid var(--azul); background: var(--nuvem); }
+  .opcao[aria-checked="true"] { border-color: var(--anil); background: var(--nuvem); }
+  .opcao[aria-checked="true"] .bolinha { border: 6px solid var(--anil); }
+  .opcao strong { display: block; font-weight: 500; font-size: 16px; }
+  .opcao small { display: block; font-size: 14px; color: var(--anil-suave); }
+  .opcao .valor { font-family: var(--display); font-size: 26px; font-weight: 500; font-variant-numeric: tabular-nums; white-space: nowrap; }
+  .resultado .unico { font-family: var(--display); font-size: 28px; font-weight: 500; line-height: 1.15; }
+  .resultado .prazo { color: var(--anil-suave); }
+
+  .como { margin-top: 20px; padding: 24px; background: var(--nuvem); border-radius: 2px; display: grid; gap: 6px; }
+  .como h3 { font-family: var(--display); font-weight: 500; font-size: 24px; }
+  .como p { color: var(--anil-suave); max-width: 40em; }
+
+  footer { margin-top: 36px; display: flex; flex-wrap: wrap; justify-content: space-between; gap: 8px 24px; font-size: 13px; color: var(--anil-suave); }
+</style>
+</head>
+<body>
+<div class="pagina">
+  <header>
+    <div class="marca">Adaliah</div>
+    <a class="insta" href="https://www.instagram.com/byadaliah/" target="_blank" rel="noopener">@byadaliah</a>
+  </header>
+
+  <section class="abertura">
+    <p class="linha">Coleção de Natal 2026</p>
+    <h1>Os lançamentos <em>da semana</em></h1>
+    <p class="texto">Peças novas, desenhadas e costuradas pela Adaliah. Escolha a sua e peça direto pelo WhatsApp.</p>
+  </section>
+
+  <main class="grade" id="grade"></main>
+
+  <section class="mais" aria-labelledby="mais-titulo">
+    <h2 id="mais-titulo">Também disponíveis</h2>
+    <p>Peças da loja prontas para enviar.</p>
+  </section>
+  <div class="grade" id="grade-disponiveis"></div>
+
+  <section class="frete" aria-labelledby="frete-titulo">
+    <h3 id="frete-titulo">Quanto fica o frete?</h3>
+    <p class="ajuda">Digite o seu CEP para ver as opções de envio. Enviamos de Ilhabela para todo o Brasil pelos Correios.</p>
+    <form id="frete-form" novalidate>
+      <label for="cep">Seu CEP</label>
+      <input id="cep" name="cep" type="text" inputmode="numeric" autocomplete="postal-code" placeholder="00000-000" maxlength="9">
+      <button type="submit">Calcular</button>
+    </form>
+    <div class="resultado" id="frete-resultado" role="status" hidden>
+      <span class="local" id="frete-local"></span>
+      <div class="opcoes" id="frete-opcoes"></div>
+      <p class="prazo" id="frete-nota"></p>
+    </div>
+  </section>
+
+  <section class="como">
+    <h3>Como pedir</h3>
+    <p>Toque no botão azul da peça que você gostou. O WhatsApp abre com a mensagem pronta, já com o nome e o valor da peça. É só enviar e combinar tamanho, pagamento e entrega.</p>
+  </section>
+
+  <footer>
+    <span>Adaliah, moda modesta</span>
+    <span>Peças feitas à mão, em quantidade limitada</span>
+  </footer>
+</div>
+
+<script>
+/* ===== CONFIGURAÇÃO: é só editar aqui ===== */
+const WHATSAPP = "5511981392190";            // número com DDI e DDD, só dígitos. Ex.: "5512999999999"
+const PRODUTOS = [
+  { nome: "Vestido Hannah", preco: "R$ 199,00", selo: "Lançamento",
+    descricao: "Um vestido para se sentir linda sem esforço. As mangas amplas dão movimento, a cintura marcada valoriza a silhueta e a saia midi cai leve, com pregas suaves.",
+    detalhes: ["Tecido New Look", "Decote canoa", "Zíper invisível"],
+    fotos: ["fotos/hannah-1.jpg", "fotos/hannah-2.jpg", "fotos/hannah-3.jpg", "fotos/hannah-4.jpg"], tamanhos: ["P"] },
+  { nome: "Conjunto Raabe", tipo: "conjunto", preco: "R$ 195,00", selo: "Lançamento",
+    descricao: "Um conjunto elegante para as ocasiões especiais. A blusa tem decote quadrado, botões perolados e barra levemente evasê. A saia longa acompanha com caimento fluido e brilho suave.",
+    detalhes: ["Tecido Crepe Amanda", "Com lastex", "Botões"],
+    cores: [
+      { nome: "Bordô", amostra: "#7A1E2C", tamanhos: ["P"], fotos: ["fotos/raabe-bordo-1.jpg", "fotos/raabe-bordo-2.jpg", "fotos/raabe-bordo-3.jpg", "fotos/raabe-bordo-4.jpg"] },
+      { nome: "Amarelo manteiga", amostra: "#F3E3A6", tamanhos: ["P", "M", "G"], fotos: ["fotos/raabe-amarelo-1.jpg", "fotos/raabe-amarelo-2.jpg", "fotos/raabe-amarelo-3.jpg"] }
+    ], fotos: [], tamanhos: [] },
+  { nome: "Conjunto Eva", tipo: "conjunto", secao: "disponivel", preco: "R$ 210,00",
+    descricao: "Clássico e sofisticado, para usar em muitas ocasiões. A blusa peplum de manga curta marca a cintura com leveza, e a saia midi reta, com pequena fenda lateral, alonga a silhueta.",
+    detalhes: ["Cor preta", "Tecido New Look", "Blusa peplum"],
+    fotos: ["fotos/eva-1.jpg", "fotos/eva-2.jpg", "fotos/eva-3.jpg"], tamanhos: ["P", "G"] },
+  { nome: "Vestido Ariela", secao: "disponivel", preco: "R$ 190,00",
+    descricao: "Leve e fluido, perfeito para os dias quentes. As mangas amplas esvoaçam a cada movimento, a faixa franzida marca a cintura e a saia midi termina em um babado delicado.",
+    detalhes: ["Tecido musseline", "Zíper invisível"],
+    fotos: ["fotos/ariela-1.jpg", "fotos/ariela-2.jpg"], tamanhos: ["P", "M"] },
+  { nome: "Vestido Atalia", secao: "disponivel", preco: "R$ 162,00",
+    descricao: "Romântico na medida certa. As mangas bufantes trazem delicadeza, a cintura marcada valoriza a silhueta e a saia midi godê tem um caimento lindo em movimento.",
+    detalhes: ["Tecido Crepe Duna", "Zíper invisível"],
+    cores: [
+      { nome: "Vermelho", amostra: "#C8102E", tamanhos: ["M"], fotos: ["fotos/atalia-vermelho-1.jpg", "fotos/atalia-vermelho-2.jpg", "fotos/atalia-vermelho-3.jpg"] },
+      { nome: "Rosé", amostra: "#E3B8A8", tamanhos: ["G"], fotos: ["fotos/atalia-rose-1.jpg", "fotos/atalia-rose-2.jpg", "fotos/atalia-rose-3.jpg"] }
+    ], fotos: [], tamanhos: [] },
+  { nome: "Vestido Maressa", secao: "disponivel", preco: "R$ 170,00",
+    descricao: "Alegre e cheio de charme. O bordado de abacaxis em branco se destaca no fundo preto, as mangas e a barra têm acabamento ondulado e a renda na saia completa o toque delicado.",
+    detalhes: ["Tecido laise", "Com lastex"],
+    fotos: ["fotos/maressa-1.jpg", "fotos/maressa-2.jpg", "fotos/maressa-3.jpg"], tamanhos: ["G"] }
+];
+
+/* Enquanto os valores reais não chegam, o site mostra as opções sem preço. Trocar para true quando a tabela tiver valores reais. */
+const FRETE_COM_VALORES = false;
+/* Tabela de frete: VALORES DE EXEMPLO. Trocar pelos valores reais cotados a partir de Ilhabela. */
+const FRETE = {
+  ilhabela: { local: "Ilhabela", opcoes: [] },
+  litoral:  { local: "Litoral Norte de São Paulo", opcoes: [
+    { servico: "PAC",   transportadora: "Correios", valor: 18, prazo: "3 a 5 dias úteis" },
+    { servico: "SEDEX", transportadora: "Correios", valor: 26, prazo: "1 a 2 dias úteis" } ] },
+  sp:       { local: "Estado de São Paulo", opcoes: [
+    { servico: "PAC",   transportadora: "Correios", valor: 22, prazo: "3 a 6 dias úteis" },
+    { servico: "SEDEX", transportadora: "Correios", valor: 30, prazo: "1 a 3 dias úteis" } ] },
+  proximos: { local: "Sudeste e Sul", opcoes: [
+    { servico: "PAC",   transportadora: "Correios", valor: 28, prazo: "5 a 8 dias úteis" },
+    { servico: "SEDEX", transportadora: "Correios", valor: 42, prazo: "2 a 4 dias úteis" } ] },
+  centro:   { local: "Rio Grande do Sul e Centro-Oeste", opcoes: [
+    { servico: "PAC",   transportadora: "Correios", valor: 34, prazo: "6 a 10 dias úteis" },
+    { servico: "SEDEX", transportadora: "Correios", valor: 55, prazo: "3 a 5 dias úteis" } ] },
+  nordeste: { local: "Nordeste", opcoes: [
+    { servico: "PAC",   transportadora: "Correios", valor: 42, prazo: "8 a 14 dias úteis" },
+    { servico: "SEDEX", transportadora: "Correios", valor: 75, prazo: "3 a 6 dias úteis" } ] },
+  norte:    { local: "Norte", opcoes: [
+    { servico: "PAC",   transportadora: "Correios", valor: 52, prazo: "10 a 18 dias úteis" },
+    { servico: "SEDEX", transportadora: "Correios", valor: 95, prazo: "4 a 8 dias úteis" } ] }
+};
+/* ========================================== */
+
+/* Descobre a região pelos 5 primeiros dígitos do CEP */
+function zonaDoCep(cep) {
+  const n = parseInt(String(cep).replace(/\D/g, "").slice(0, 5), 10);
+  if (isNaN(n) || n < 1000) return null;
+  if (n >= 11630 && n <= 11639) return "ilhabela";
+  if (n >= 11600 && n <= 11699) return "litoral";   // São Sebastião, Caraguatatuba, Ubatuba
+  if (n <= 19999) return "sp";
+  if (n <= 39999) return "proximos";                // RJ, ES, MG
+  if (n <= 65999) return "nordeste";                // BA, SE, PE, AL, PB, RN, CE, PI, MA
+  if (n <= 69999) return "norte";                   // PA, AP, AM, RR, AC
+  if (n >= 76800 && n <= 76999) return "norte";     // RO
+  if (n >= 77000 && n <= 77999) return "norte";     // TO
+  if (n <= 79999) return "centro";                  // DF, GO, MT, MS
+  if (n <= 89999) return "proximos";                // PR, SC
+  return "centro";                                  // RS
+}
+function reais(v) { return "R$ " + v.toFixed(2).replace(".", ","); }
+let freteEscolhido = null; // { cep, texto }
+
+const ICONE = '<svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2zm0 18.2a8.2 8.2 0 0 1-4.2-1.2l-.3-.2-3 .8.8-2.9-.2-.3A8.2 8.2 0 1 1 12 20.2zm4.5-6.1c-.2-.1-1.5-.7-1.7-.8-.2-.1-.4-.1-.6.1l-.8 1c-.1.2-.3.2-.5.1a6.7 6.7 0 0 1-3.300-2.900c-.2-.3 0-.4.1-.5l.4-.5.2-.4v-.4l-.8-1.900c-.2-.5-.4-.4-.6-.4h-.5c-.2 0-.4.1-.6.3-.2.3-.8.8-.8 2s.8 2.300 1 2.500c.1.200 1.700 2.600 4.100 3.600 1.500.6 2 .6 2.700.5.5-.1 1.500-.6 1.700-1.200.2-.6.2-1.100.1-1.200l-.4-.2z"/></svg>';
+
+function linkPedido(p, tamanho, cor) {
+  let msg = "Oi! Vi o catálogo da Adaliah e quero o *" + p.nome + "*";
+  if (p.preco) msg += " (" + p.preco + ")";
+  if (cor) msg += ", na cor " + cor.toLowerCase();
+  if (tamanho) msg += ", tamanho " + tamanho;
+  msg += ". Ainda está disponível?";
+  if (freteEscolhido) msg += "\nMeu CEP é " + freteEscolhido.cep + " (" + freteEscolhido.texto + ").";
+  return "https://wa.me/" + WHATSAPP + "?text=" + encodeURIComponent(msg);
+}
+
+const grade = document.getElementById("grade");
+const gradeDisp = document.getElementById("grade-disponiveis");
+const atualizadores = [];
+PRODUTOS.forEach(function (p) {
+  const art = document.createElement("article");
+  art.className = "peca";
+
+  const cores = p.cores || [];
+  let cor = cores.length ? cores[0] : null;
+  const tipo = p.tipo || "vestido";
+  const disponivel = !!p.preco;
+
+  art.innerHTML =
+    '<div class="foto"><div class="quadro"></div>' + (p.selo ? '<span class="selo">' + p.selo + '</span>' : '') + '</div>' +
+    '<div class="miniaturas"></div>' +
+    '<div class="dados"><h2>' + p.nome + '</h2><span class="preco">' + (p.preco || "Preço em breve") + '</span></div>' +
+    (p.descricao ? '<p class="descricao">' + p.descricao + '</p>' : '') +
+    (p.detalhes.length ? '<ul class="detalhes">' + p.detalhes.map(function (d) { return '<li>' + d + '</li>'; }).join("") + '</ul>' : '') +
+    (cores.length ? '<div class="cores"><span class="rotulo">Cor: <strong class="cor-nome">' + cor.nome + '</strong></span><div class="lista">' +
+      cores.map(function (c, i) { return '<button type="button" aria-pressed="' + (i === 0) + '"><span class="amostra" style="background:' + c.amostra + '"></span>' + c.nome + '</button>'; }).join("") + '</div></div>' : '') +
+    '<div class="tamanhos"></div>' +
+    (disponivel
+      ? '<a class="pedir" target="_blank" rel="noopener" href="#">' + ICONE + 'Quero este ' + tipo + '</a>'
+      : '<span class="pedir espera">Disponível nesta semana</span>');
+
+  const quadro = art.querySelector(".quadro");
+  const minis = art.querySelector(".miniaturas");
+  function mostrarFotos(fotos, legenda) {
+    if (!fotos.length) {
+      quadro.innerHTML = '<div class="sem-foto"><span>' + legenda + '</span><small>Fotos em breve</small></div>';
+      minis.innerHTML = ""; minis.hidden = true;
+      return;
+    }
+    quadro.innerHTML = '<img class="principal" src="' + fotos[0] + '" alt="' + legenda + ', foto 1">';
+    minis.hidden = fotos.length < 2;
+    minis.innerHTML = fotos.length < 2 ? "" : fotos.map(function (f, i) {
+      return '<button type="button" aria-label="Ver foto ' + (i + 1) + '" aria-pressed="' + (i === 0) + '"><img src="' + f.replace(".jpg", "-p.jpg") + '" alt="" loading="lazy"></button>';
+    }).join("");
+    minis.querySelectorAll("button").forEach(function (m, i) {
+      m.addEventListener("click", function () {
+        const img = quadro.querySelector(".principal");
+        quadro.style.background = 'url("' + fotos[i].replace(".jpg", "-p.jpg") + '") center / cover';
+        img.src = fotos[i];
+        img.alt = legenda + ", foto " + (i + 1);
+        minis.querySelectorAll("button").forEach(function (o) { o.setAttribute("aria-pressed", "false"); });
+        m.setAttribute("aria-pressed", "true");
+      });
+    });
+  }
+  mostrarFotos(cor ? cor.fotos : p.fotos, cor ? p.nome + " " + cor.nome : p.nome);
+
+  art.querySelectorAll(".cores button").forEach(function (b, i) {
+    b.addEventListener("click", function () {
+      cor = cores[i];
+      art.querySelectorAll(".cores button").forEach(function (o) { o.setAttribute("aria-pressed", "false"); });
+      b.setAttribute("aria-pressed", "true");
+      art.querySelector(".cor-nome").textContent = cor.nome;
+      mostrarFotos(cor.fotos, p.nome + " " + cor.nome);
+      montarTamanhos();
+      atualizar();
+    });
+  });
+
+  const botao = art.querySelector(".pedir");
+  let tamanho = "";
+  function atualizar() { if (botao.tagName === 'A') botao.href = linkPedido(p, tamanho, cor ? cor.nome : ''); }
+  atualizar();
+  atualizadores.push(atualizar);
+  function montarTamanhos() {
+    const caixaTam = art.querySelector(".tamanhos");
+    const lista = (cor && cor.tamanhos) ? cor.tamanhos : p.tamanhos;
+    tamanho = lista.length === 1 ? lista[0] : "";
+    if (!lista.length) { caixaTam.hidden = true; caixaTam.innerHTML = ""; return; }
+    caixaTam.hidden = false;
+    caixaTam.innerHTML = '<span class="rotulo">' + (lista.length === 1 ? "Tamanho disponível" : "Tamanhos disponíveis") + '</span>' +
+      lista.map(function (t) { return '<button type="button" aria-pressed="' + (lista.length === 1) + '">' + t + '</button>'; }).join("");
+    caixaTam.querySelectorAll("button").forEach(function (b) {
+      b.addEventListener("click", function () {
+        if (lista.length === 1) return;
+        const ativo = b.getAttribute("aria-pressed") === "true";
+        caixaTam.querySelectorAll("button").forEach(function (o) { o.setAttribute("aria-pressed", "false"); });
+        b.setAttribute("aria-pressed", ativo ? "false" : "true");
+        tamanho = ativo ? "" : b.textContent;
+        atualizar();
+      });
+    });
+  }
+  montarTamanhos();
+  atualizar();
+  (p.secao === "disponivel" ? gradeDisp : grade).appendChild(art);
+});
+if (!gradeDisp.children.length) { gradeDisp.hidden = true; document.querySelector(".mais").hidden = true; }
+
+/* Carrega todas as fotos em segundo plano, para a troca ser imediata */
+window.addEventListener("load", function () {
+  const fila = [];
+  PRODUTOS.forEach(function (p) {
+    (p.fotos || []).forEach(function (f) { fila.push(f); });
+    (p.cores || []).forEach(function (c) { c.fotos.forEach(function (f) { fila.push(f); }); });
+  });
+  const guardadas = [];
+  function proxima() {
+    const f = fila.shift();
+    if (!f) return;
+    const img = new Image();
+    img.onload = img.onerror = proxima;
+    img.src = f;
+    guardadas.push(img);
+  }
+  proxima(); proxima();
+});
+
+/* Frete */
+const campoCep = document.getElementById("cep");
+const caixa = document.getElementById("frete-resultado");
+campoCep.addEventListener("input", function () {
+  const d = campoCep.value.replace(/\D/g, "").slice(0, 8);
+  campoCep.value = d.length > 5 ? d.slice(0, 5) + "-" + d.slice(5) : d;
+});
+const elLocal = document.getElementById("frete-local");
+const elOpcoes = document.getElementById("frete-opcoes");
+const elNota = document.getElementById("frete-nota");
+function avisar() { atualizadores.forEach(function (fn) { fn(); }); }
+
+document.getElementById("frete-form").addEventListener("submit", function (e) {
+  e.preventDefault();
+  const d = campoCep.value.replace(/\D/g, "");
+  const zona = d.length === 8 ? zonaDoCep(d) : null;
+  const cep = campoCep.value;
+  caixa.hidden = false;
+  elOpcoes.innerHTML = "";
+  freteEscolhido = null;
+
+  if (!zona) {
+    elLocal.textContent = "CEP não encontrado";
+    elOpcoes.innerHTML = '<span class="unico">Confira o CEP: são 8 números.</span>';
+    elNota.textContent = "";
+  } else if (zona === "ilhabela") {
+    elLocal.textContent = "Você é de Ilhabela";
+    elOpcoes.innerHTML = '<span class="unico">Sem frete</span>';
+    elNota.textContent = "Você retira com a gente ou combinamos a entrega em mãos.";
+    freteEscolhido = { cep: cep, texto: "sou de Ilhabela, retiro ou combino a entrega" };
+  } else {
+    const f = FRETE[zona];
+    elLocal.textContent = "Envio para " + f.local;
+    if (!FRETE_COM_VALORES) {
+      elOpcoes.innerHTML = '<span class="unico">PAC ou SEDEX, pelos Correios</span>';
+      elNota.textContent = "Enviamos para a sua região. O valor do frete é informado pelo WhatsApp, junto com o pedido.";
+      freteEscolhido = { cep: cep, texto: "gostaria de saber o valor do frete" };
+      avisar();
+      return;
+    }
+    elOpcoes.setAttribute("role", "radiogroup");
+    f.opcoes.forEach(function (o, i) {
+      const b = document.createElement("button");
+      b.type = "button";
+      b.className = "opcao";
+      b.setAttribute("role", "radio");
+      b.setAttribute("aria-checked", i === 0 ? "true" : "false");
+      b.innerHTML = '<span class="bolinha"></span><span><strong>' + o.servico + ' · ' + o.transportadora +
+        '</strong><small>Chega em ' + o.prazo + '</small></span><span class="valor">' + reais(o.valor) + '</span>';
+      b.addEventListener("click", function () {
+        elOpcoes.querySelectorAll(".opcao").forEach(function (x) { x.setAttribute("aria-checked", "false"); });
+        b.setAttribute("aria-checked", "true");
+        freteEscolhido = { cep: cep, texto: "envio por " + o.servico + " " + o.transportadora + ", frete estimado " + reais(o.valor) };
+        avisar();
+      });
+      elOpcoes.appendChild(b);
+    });
+    const p0 = f.opcoes[0];
+    freteEscolhido = { cep: cep, texto: "envio por " + p0.servico + " " + p0.transportadora + ", frete estimado " + reais(p0.valor) };
+    elNota.textContent = "Escolha a opção que preferir. Valor estimado, confirmado no WhatsApp.";
+  }
+  avisar();
+});
+</script>
+</body>
+</html>
