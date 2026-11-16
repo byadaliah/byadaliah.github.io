@@ -136,6 +136,16 @@
   .como h3 { font-family: var(--display); font-weight: 500; font-size: 24px; }
   .como p { color: var(--anil-suave); max-width: 40em; }
 
+  .quem { margin-top: 48px; padding-top: 32px; border-top: 1px solid var(--bruma); display: grid; gap: 24px; align-items: center; }
+  @media (min-width: 760px) { .quem { grid-template-columns: minmax(0, 360px) minmax(0, 1fr); gap: 48px; } }
+  .quem-video { width: 100%; max-width: 360px; justify-self: center; aspect-ratio: 9 / 16; background: var(--bruma); border-radius: 2px; overflow: hidden; }
+  .quem-video video { width: 100%; height: 100%; object-fit: cover; display: block; }
+  .quem-texto { display: grid; gap: 10px; }
+  .quem-texto .linha { font-size: 12px; letter-spacing: 0.22em; text-transform: uppercase; color: var(--azul); font-weight: 500; }
+  .quem-texto h3 { font-family: var(--display); font-weight: 400; font-size: clamp(34px, 8vw, 48px); line-height: 1.05; }
+  .quem-texto p:not(.linha) { color: var(--anil-suave); max-width: 34em; }
+  .insta-botao { justify-self: start; margin-top: 6px; display: inline-flex; align-items: center; min-height: 48px; padding: 0 22px; border: 1px solid var(--anil); border-radius: 999px; color: var(--anil); text-decoration: none; font-weight: 500; font-size: 15px; }
+  .insta-botao:hover { background: var(--nuvem); }
   footer { margin-top: 36px; display: flex; flex-wrap: wrap; justify-content: space-between; gap: 8px 24px; font-size: 13px; color: var(--anil-suave); }
 </style>
 </head>
@@ -178,6 +188,20 @@
   <section class="como">
     <h3>Como pedir</h3>
     <p>Toque no botão azul da peça que você gostou. O WhatsApp abre com a mensagem pronta, já com o nome e o valor da peça. É só enviar e combinar tamanho, pagamento e entrega.</p>
+  </section>
+
+  <section class="quem" aria-labelledby="quem-titulo">
+    <div class="quem-video">
+      <video controls playsinline preload="metadata" poster="video/poster.jpg">
+        <source src="video/adaliah.mp4" type="video/mp4">
+      </video>
+    </div>
+    <div class="quem-texto">
+      <p class="linha">Quem faz a Adaliah</p>
+      <h3 id="quem-titulo">Nathaly Coyado</h3>
+      <p>A Nathaly desenha e costura cada peça da Adaliah, uma marca de moda modesta feita com carinho em Ilhabela. Dá o play e conheça a história por trás das roupas.</p>
+      <a class="insta-botao" href="https://www.instagram.com/byadaliah/" target="_blank" rel="noopener">Seguir @byadaliah no Instagram</a>
+    </div>
   </section>
 
   <footer>
@@ -223,7 +247,7 @@ const PRODUTOS = [
 ];
 
 /* Enquanto os valores reais não chegam, o site mostra as opções sem preço. Trocar para true quando a tabela tiver valores reais. */
-const FRETE_COM_VALORES = true;
+const FRETE_COM_VALORES = false;
 /* Tabela de frete: VALORES DE EXEMPLO. Trocar pelos valores reais cotados a partir de Ilhabela. */
 const FRETE = {
   ilhabela: { local: "Ilhabela", opcoes: [] },
