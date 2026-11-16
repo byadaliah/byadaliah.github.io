@@ -247,57 +247,52 @@ const PRODUTOS = [
 ];
 
 /* Enquanto os valores reais não chegam, o site mostra as opções sem preço. Trocar para true quando a tabela tiver valores reais. */
-const FRETE_COM_VALORES = false;
+const FRETE_COM_VALORES = true;
 /* Tabela de frete: VALORES DE EXEMPLO. Trocar pelos valores reais cotados a partir de Ilhabela. */
-const FRETE = {
-  ilhabela: { local: "Ilhabela", opcoes: [] },
-  capital:  { local: "Capital de São Paulo", opcoes: [
-    { servico: "PAC",    transportadora: "Correios", valor: 11.15, prazo: "até 7 dias úteis" },
-    { servico: "SEDEX",  transportadora: "Correios", valor: 15.25, prazo: "até 3 dias úteis" },
-    { servico: "Jadlog", valor: 5.72, prazo: "até 4 dias úteis" } ] },
-  litoral:  { local: "Litoral Norte de São Paulo", opcoes: [
-    { servico: "PAC",    transportadora: "Correios", valor: 21.15, prazo: "até 6 dias úteis" },
-    { servico: "SEDEX",  transportadora: "Correios", valor: 25.25, prazo: "até 2 dias úteis" },
-    { servico: "Jadlog", valor: 15.72, prazo: "até 4 dias úteis" } ] },
-  sp:       { local: "Estado de São Paulo", opcoes: [
-    { servico: "PAC",    transportadora: "Correios", valor: 21.15, prazo: "até 6 dias úteis" },
-    { servico: "SEDEX",  transportadora: "Correios", valor: 25.25, prazo: "até 2 dias úteis" },
-    { servico: "Jadlog", valor: 15.72, prazo: "até 4 dias úteis" } ] },
-  proximos: { local: "Sudeste e Sul", opcoes: [
-    { servico: "PAC",    transportadora: "Correios", valor: 29.83, prazo: "até 6 dias úteis" },
-    { servico: "SEDEX",  transportadora: "Correios", valor: 55.37, prazo: "até 2 dias úteis" },
-    { servico: "Jadlog", valor: 18.61, prazo: "até 5 dias úteis" } ] },
-  centro:   { local: "Rio Grande do Sul e Centro-Oeste", opcoes: [
-    { servico: "PAC",    transportadora: "Correios", valor: 29.83, prazo: "até 6 dias úteis" },
-    { servico: "SEDEX",  transportadora: "Correios", valor: 55.37, prazo: "até 2 dias úteis" },
-    { servico: "Jadlog", valor: 22.01, prazo: "até 5 dias úteis" } ] },
-  nordeste: { local: "Nordeste", opcoes: [
-    { servico: "PAC",    transportadora: "Correios", valor: 35.93, prazo: "até 6 dias úteis" },
-    { servico: "SEDEX",  transportadora: "Correios", valor: 71.05, prazo: "até 2 dias úteis" },
-    { servico: "Jadlog", valor: 22.38, prazo: "até 7 dias úteis" } ] },
-  norte:    { local: "Norte", opcoes: [
-    { servico: "PAC",    transportadora: "Correios", valor: 80.99, prazo: "até 22 dias úteis" },
-    { servico: "SEDEX",  transportadora: "Correios", valor: 98.79, prazo: "até 3 dias úteis" },
-    { servico: "Jadlog", valor: 32.38, prazo: "até 16 dias úteis" } ] }
+/* Valores reais da SuperFrete (conta da Adaliah), saindo de Ilhabela,
+   pacote até 1 kg, 5 x 40 x 35 cm, simulados para a capital de cada estado em 16/11/2026.
+   [PAC, prazo PAC, SEDEX, prazo SEDEX] */
+const TABELA = {
+  SP: [21.15, 7, 25.25, 3],
+  RJ: [29.83, 6, 55.37, 2], ES: [29.83, 7, 55.37, 3], MG: [29.83, 6, 55.37, 2],
+  PR: [29.83, 6, 55.37, 2], SC: [29.83, 7, 55.37, 2], RS: [29.83, 6, 55.37, 2],
+  GO: [29.83, 6, 55.37, 2], DF: [29.83, 6, 55.37, 2], MS: [29.83, 7, 55.37, 3],
+  BA: [35.93, 6, 71.05, 2], MT: [35.93, 9, 71.05, 5],
+  PE: [59.27, 7, 86.08, 2], CE: [59.27, 7, 86.08, 3], PA: [59.27, 11, 86.08, 7], TO: [59.27, 12, 86.08, 6],
+  SE: [80.99, 8, 98.79, 2], AL: [80.99, 7, 98.79, 3], RN: [80.99, 7, 98.79, 3], PB: [80.99, 8, 98.79, 2],
+  MA: [80.99, 10, 98.79, 6], PI: [80.99, 9, 98.79, 5], AM: [80.99, 22, 98.79, 3], RR: [80.99, 22, 98.79, 5],
+  RO: [80.99, 12, 98.79, 5], AC: [80.99, 9, 98.79, 5], AP: [80.99, 14, 98.79, 10]
 };
+const NOMES = { SP: "São Paulo", RJ: "Rio de Janeiro", ES: "Espírito Santo", MG: "Minas Gerais", PR: "Paraná", SC: "Santa Catarina",
+  RS: "Rio Grande do Sul", GO: "Goiás", DF: "Distrito Federal", MS: "Mato Grosso do Sul", BA: "Bahia", MT: "Mato Grosso",
+  PE: "Pernambuco", CE: "Ceará", PA: "Pará", TO: "Tocantins", SE: "Sergipe", AL: "Alagoas", RN: "Rio Grande do Norte",
+  PB: "Paraíba", MA: "Maranhão", PI: "Piauí", AM: "Amazonas", RR: "Roraima", RO: "Rondônia", AC: "Acre", AP: "Amapá" };
+const FRETE = { ilhabela: { local: "Ilhabela", opcoes: [] } };
+Object.keys(TABELA).forEach(function (uf) {
+  const t = TABELA[uf];
+  FRETE[uf] = { local: NOMES[uf], opcoes: [
+    { servico: "PAC",   transportadora: "Correios", valor: t[0], prazo: "até " + t[1] + " dias úteis" },
+    { servico: "SEDEX", transportadora: "Correios", valor: t[2], prazo: "até " + t[3] + " dias úteis" } ] };
+});
 /* ========================================== */
 
 /* Descobre a região pelos 5 primeiros dígitos do CEP */
 function zonaDoCep(cep) {
   const n = parseInt(String(cep).replace(/\D/g, "").slice(0, 5), 10);
   if (isNaN(n) || n < 1000) return null;
-  if (n >= 11630 && n <= 11639) return "ilhabela";
-  if (n >= 11600 && n <= 11699) return "litoral";
-  if ((n >= 1000 && n <= 5999) || (n >= 8000 && n <= 8499)) return "capital";   // São Sebastião, Caraguatatuba, Ubatuba
-  if (n <= 19999) return "sp";
-  if (n <= 39999) return "proximos";                // RJ, ES, MG
-  if (n <= 65999) return "nordeste";                // BA, SE, PE, AL, PB, RN, CE, PI, MA
-  if (n <= 69999) return "norte";                   // PA, AP, AM, RR, AC
-  if (n >= 76800 && n <= 76999) return "norte";     // RO
-  if (n >= 77000 && n <= 77999) return "norte";     // TO
-  if (n <= 79999) return "centro";                  // DF, GO, MT, MS
-  if (n <= 89999) return "proximos";                // PR, SC
-  return "centro";                                  // RS
+  if (n >= 11630 && n <= 11659) return "ilhabela";
+  const faixas = [
+    [1000, 19999, "SP"], [20000, 28999, "RJ"], [29000, 29999, "ES"], [30000, 39999, "MG"],
+    [40000, 48999, "BA"], [49000, 49999, "SE"], [50000, 56999, "PE"], [57000, 57999, "AL"],
+    [58000, 58999, "PB"], [59000, 59999, "RN"], [60000, 63999, "CE"], [64000, 64999, "PI"],
+    [65000, 65999, "MA"], [66000, 68899, "PA"], [68900, 68999, "AP"], [69000, 69299, "AM"],
+    [69300, 69399, "RR"], [69400, 69899, "AM"], [69900, 69999, "AC"], [70000, 72799, "DF"],
+    [72800, 72999, "GO"], [73000, 73699, "DF"], [73700, 76799, "GO"], [76800, 76999, "RO"],
+    [77000, 77999, "TO"], [78000, 78899, "MT"], [79000, 79999, "MS"], [80000, 87999, "PR"],
+    [88000, 89999, "SC"], [90000, 99999, "RS"]
+  ];
+  const f = faixas.find(function (x) { return n >= x[0] && n <= x[1]; });
+  return f ? f[2] : null;
 }
 function reais(v) { return "R$ " + v.toFixed(2).replace(".", ","); }
 let freteEscolhido = null; // { cep, texto }
@@ -514,7 +509,7 @@ document.getElementById("frete-form").addEventListener("submit", function (e) {
     });
     const p0 = f.opcoes[0];
     freteEscolhido = { cep: cep, texto: "envio por " + p0.servico + (p0.transportadora ? " " + p0.transportadora : "") + ", frete estimado " + reais(p0.valor) };
-    elNota.textContent = "Escolha a opção que preferir. O valor pode variar um pouco conforme o endereço e é confirmado pela Nathaly no WhatsApp.";
+    elNota.textContent = "Escolha a opção que preferir. Valor estimado pela capital do estado: no interior o prazo pode ser um pouco maior. A Nathaly confirma tudo pelo WhatsApp.";
   }
   avisar();
 });
