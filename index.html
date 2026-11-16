@@ -124,6 +124,11 @@
   .opcao strong { display: block; font-weight: 500; font-size: 16px; }
   .opcao small { display: block; font-size: 14px; color: var(--anil-suave); }
   .opcao .valor { font-family: var(--display); font-size: 26px; font-weight: 500; font-variant-numeric: tabular-nums; white-space: nowrap; }
+  .correios { margin-top: 10px; display: grid; gap: 8px; font-size: 15px; color: var(--anil-suave); }
+  .correios ul { margin: 0; padding-left: 18px; display: grid; gap: 2px; }
+  .correios strong { color: var(--anil); font-weight: 500; font-variant-numeric: tabular-nums; }
+  .link-correios { justify-self: start; display: inline-flex; align-items: center; min-height: 44px; padding: 0 20px; border: 1px solid var(--anil); border-radius: 999px; color: var(--anil); text-decoration: none; font-weight: 500; font-size: 15px; }
+  .link-correios:hover { background: var(--ceu); }
   .resultado .unico { font-family: var(--display); font-size: 28px; font-weight: 500; line-height: 1.15; }
   .resultado .prazo { color: var(--anil-suave); }
 
@@ -157,7 +162,7 @@
 
   <section class="frete" aria-labelledby="frete-titulo">
     <h3 id="frete-titulo">Quanto fica o frete?</h3>
-    <p class="ajuda">Digite o seu CEP para ver as opções de envio. Enviamos de Ilhabela para todo o Brasil pelos Correios.</p>
+    <p class="ajuda">Digite o seu CEP para ver as opções de envio. Enviamos de Ilhabela para todo o Brasil.</p>
     <form id="frete-form" novalidate>
       <label for="cep">Seu CEP</label>
       <input id="cep" name="cep" type="text" inputmode="numeric" autocomplete="postal-code" placeholder="00000-000" maxlength="9">
@@ -218,28 +223,38 @@ const PRODUTOS = [
 ];
 
 /* Enquanto os valores reais não chegam, o site mostra as opções sem preço. Trocar para true quando a tabela tiver valores reais. */
-const FRETE_COM_VALORES = false;
+const FRETE_COM_VALORES = true;
 /* Tabela de frete: VALORES DE EXEMPLO. Trocar pelos valores reais cotados a partir de Ilhabela. */
 const FRETE = {
   ilhabela: { local: "Ilhabela", opcoes: [] },
+  capital:  { local: "Capital de São Paulo", opcoes: [
+    { servico: "PAC",    transportadora: "Correios", valor: 11.15, prazo: "até 7 dias úteis" },
+    { servico: "SEDEX",  transportadora: "Correios", valor: 15.25, prazo: "até 3 dias úteis" },
+    { servico: "Jadlog", valor: 5.72, prazo: "até 4 dias úteis" } ] },
   litoral:  { local: "Litoral Norte de São Paulo", opcoes: [
-    { servico: "PAC",   transportadora: "Correios", valor: 18, prazo: "3 a 5 dias úteis" },
-    { servico: "SEDEX", transportadora: "Correios", valor: 26, prazo: "1 a 2 dias úteis" } ] },
+    { servico: "PAC",    transportadora: "Correios", valor: 21.15, prazo: "até 6 dias úteis" },
+    { servico: "SEDEX",  transportadora: "Correios", valor: 25.25, prazo: "até 2 dias úteis" },
+    { servico: "Jadlog", valor: 15.72, prazo: "até 4 dias úteis" } ] },
   sp:       { local: "Estado de São Paulo", opcoes: [
-    { servico: "PAC",   transportadora: "Correios", valor: 22, prazo: "3 a 6 dias úteis" },
-    { servico: "SEDEX", transportadora: "Correios", valor: 30, prazo: "1 a 3 dias úteis" } ] },
+    { servico: "PAC",    transportadora: "Correios", valor: 21.15, prazo: "até 6 dias úteis" },
+    { servico: "SEDEX",  transportadora: "Correios", valor: 25.25, prazo: "até 2 dias úteis" },
+    { servico: "Jadlog", valor: 15.72, prazo: "até 4 dias úteis" } ] },
   proximos: { local: "Sudeste e Sul", opcoes: [
-    { servico: "PAC",   transportadora: "Correios", valor: 28, prazo: "5 a 8 dias úteis" },
-    { servico: "SEDEX", transportadora: "Correios", valor: 42, prazo: "2 a 4 dias úteis" } ] },
+    { servico: "PAC",    transportadora: "Correios", valor: 29.83, prazo: "até 6 dias úteis" },
+    { servico: "SEDEX",  transportadora: "Correios", valor: 55.37, prazo: "até 2 dias úteis" },
+    { servico: "Jadlog", valor: 18.61, prazo: "até 5 dias úteis" } ] },
   centro:   { local: "Rio Grande do Sul e Centro-Oeste", opcoes: [
-    { servico: "PAC",   transportadora: "Correios", valor: 34, prazo: "6 a 10 dias úteis" },
-    { servico: "SEDEX", transportadora: "Correios", valor: 55, prazo: "3 a 5 dias úteis" } ] },
+    { servico: "PAC",    transportadora: "Correios", valor: 29.83, prazo: "até 6 dias úteis" },
+    { servico: "SEDEX",  transportadora: "Correios", valor: 55.37, prazo: "até 2 dias úteis" },
+    { servico: "Jadlog", valor: 22.01, prazo: "até 5 dias úteis" } ] },
   nordeste: { local: "Nordeste", opcoes: [
-    { servico: "PAC",   transportadora: "Correios", valor: 42, prazo: "8 a 14 dias úteis" },
-    { servico: "SEDEX", transportadora: "Correios", valor: 75, prazo: "3 a 6 dias úteis" } ] },
+    { servico: "PAC",    transportadora: "Correios", valor: 35.93, prazo: "até 6 dias úteis" },
+    { servico: "SEDEX",  transportadora: "Correios", valor: 71.05, prazo: "até 2 dias úteis" },
+    { servico: "Jadlog", valor: 22.38, prazo: "até 7 dias úteis" } ] },
   norte:    { local: "Norte", opcoes: [
-    { servico: "PAC",   transportadora: "Correios", valor: 52, prazo: "10 a 18 dias úteis" },
-    { servico: "SEDEX", transportadora: "Correios", valor: 95, prazo: "4 a 8 dias úteis" } ] }
+    { servico: "PAC",    transportadora: "Correios", valor: 80.99, prazo: "até 22 dias úteis" },
+    { servico: "SEDEX",  transportadora: "Correios", valor: 98.79, prazo: "até 3 dias úteis" },
+    { servico: "Jadlog", valor: 32.38, prazo: "até 16 dias úteis" } ] }
 };
 /* ========================================== */
 
@@ -248,7 +263,8 @@ function zonaDoCep(cep) {
   const n = parseInt(String(cep).replace(/\D/g, "").slice(0, 5), 10);
   if (isNaN(n) || n < 1000) return null;
   if (n >= 11630 && n <= 11639) return "ilhabela";
-  if (n >= 11600 && n <= 11699) return "litoral";   // São Sebastião, Caraguatatuba, Ubatuba
+  if (n >= 11600 && n <= 11699) return "litoral";
+  if ((n >= 1000 && n <= 5999) || (n >= 8000 && n <= 8499)) return "capital";   // São Sebastião, Caraguatatuba, Ubatuba
   if (n <= 19999) return "sp";
   if (n <= 39999) return "proximos";                // RJ, ES, MG
   if (n <= 65999) return "nordeste";                // BA, SE, PE, AL, PB, RN, CE, PI, MA
@@ -441,8 +457,16 @@ document.getElementById("frete-form").addEventListener("submit", function (e) {
     const f = FRETE[zona];
     elLocal.textContent = "Envio para " + f.local;
     if (!FRETE_COM_VALORES) {
-      elOpcoes.innerHTML = '<span class="unico">PAC ou SEDEX, pelos Correios</span>';
-      elNota.textContent = "Enviamos para a sua região. O valor do frete é informado pelo WhatsApp, junto com o pedido.";
+      elOpcoes.innerHTML =
+        '<span class="unico">PAC ou SEDEX, pelos Correios</span>' +
+        '<div class="correios">' +
+          '<p>Quer uma estimativa agora? Simule no site dos Correios com estes dados:</p>' +
+          '<ul><li>CEP de origem: <strong>11630-000</strong> (Ilhabela, SP)</li>' +
+          '<li>CEP de destino: <strong>' + cep + '</strong></li>' +
+          '<li>Peso: <strong>1 kg</strong> · Caixa: <strong>25 × 20 × 5 cm</strong></li></ul>' +
+          '<a class="link-correios" href="https://www2.correios.com.br/sistemas/precosPrazos/" target="_blank" rel="noopener">Calcular no site dos Correios</a>' +
+        '</div>';
+      elNota.textContent = "Para o valor exato, é só pedir pelo WhatsApp: a Nathaly calcula e te responde junto com o pedido.";
       freteEscolhido = { cep: cep, texto: "gostaria de saber o valor do frete" };
       avisar();
       return;
@@ -454,19 +478,19 @@ document.getElementById("frete-form").addEventListener("submit", function (e) {
       b.className = "opcao";
       b.setAttribute("role", "radio");
       b.setAttribute("aria-checked", i === 0 ? "true" : "false");
-      b.innerHTML = '<span class="bolinha"></span><span><strong>' + o.servico + ' · ' + o.transportadora +
-        '</strong><small>Chega em ' + o.prazo + '</small></span><span class="valor">' + reais(o.valor) + '</span>';
+      b.innerHTML = '<span class="bolinha"></span><span><strong>' + o.servico + (o.transportadora ? ' · ' + o.transportadora : '') +
+        '</strong><small>Chega em ' + o.prazo + ' após a postagem</small></span><span class="valor">' + reais(o.valor) + '</span>';
       b.addEventListener("click", function () {
         elOpcoes.querySelectorAll(".opcao").forEach(function (x) { x.setAttribute("aria-checked", "false"); });
         b.setAttribute("aria-checked", "true");
-        freteEscolhido = { cep: cep, texto: "envio por " + o.servico + " " + o.transportadora + ", frete estimado " + reais(o.valor) };
+        freteEscolhido = { cep: cep, texto: "envio por " + o.servico + (o.transportadora ? " " + o.transportadora : "") + ", frete estimado " + reais(o.valor) };
         avisar();
       });
       elOpcoes.appendChild(b);
     });
     const p0 = f.opcoes[0];
-    freteEscolhido = { cep: cep, texto: "envio por " + p0.servico + " " + p0.transportadora + ", frete estimado " + reais(p0.valor) };
-    elNota.textContent = "Escolha a opção que preferir. Valor estimado, confirmado no WhatsApp.";
+    freteEscolhido = { cep: cep, texto: "envio por " + p0.servico + (p0.transportadora ? " " + p0.transportadora : "") + ", frete estimado " + reais(p0.valor) };
+    elNota.textContent = "Escolha a opção que preferir. O valor pode variar um pouco conforme o endereço e é confirmado pela Nathaly no WhatsApp.";
   }
   avisar();
 });
