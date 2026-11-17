@@ -412,6 +412,12 @@
   .ficha-barra { background: #3A8FB4 url(marca/textura.jpg) center / cover; border-bottom: 0; }
   .ficha-barra .marca-mini-img { height: 44px; }
   .ficha-fechar { color: #fff; border-color: rgba(255,255,255,.8); }
+
+  /* ===== Transição suave entre topo e foto (v6) ===== */
+  .topo { background: linear-gradient(180deg, rgba(59,140,176,0) 35%, rgba(59,140,176,.85) 85%, #3B8CB0 100%), #3A8FB4 url(marca/textura.jpg) center / cover; }
+  .hero::before { content: ""; position: absolute; left: 0; right: 0; top: 0; height: 140px; z-index: 1; pointer-events: none;
+    background: linear-gradient(180deg, #3B8CB0 0%, rgba(59,140,176,.75) 22%, rgba(59,140,176,.35) 52%, rgba(59,140,176,.1) 78%, rgba(59,140,176,0) 100%); }
+  @media (min-width: 760px) { .hero::before { height: 120px; } }
 </style>
 </head>
 <body>
