@@ -479,6 +479,20 @@
   .rec-ok input { width: 20px; height: 20px; accent-color: var(--azul); }
   .pote { position: absolute; left: -9999px; width: 1px; height: 1px; opacity: 0; }
   .recado-form button[disabled] { opacity: .6; cursor: wait; }
+  /* ===== v12: no computador as três fotos ficam lado a lado, sem zoom ===== */
+  @media (min-width: 760px) {
+    .hero { aspect-ratio: 9 / 4; max-height: 92vh; display: grid; grid-template-columns: repeat(3, 1fr); gap: 3px; background: #fff; }
+    .hero-slide { position: relative; inset: auto; opacity: 1; height: 100%; min-height: 0; overflow: hidden; }
+    .hero-slide picture, .hero-slide img { height: 100%; }
+    .hero-slide:nth-of-type(1) img { object-position: center 20%; }
+    .hero-slide:nth-of-type(2) img { object-position: center 0%; }
+    .hero-slide:nth-of-type(3) img { object-position: center 30%; }
+    .hero-pontos { display: none; }
+    .hero-texto { padding-bottom: clamp(26px, 3.4vw, 58px); }
+    .hero-texto h1 { font-size: clamp(38px, 4.3vw, 86px); }
+    .hero-arco { padding: clamp(18px, 2vw, 34px) clamp(18px, 1.8vw, 30px) 4px; }
+    .hero-assinatura { font-size: clamp(14px, 1.1vw, 18px) !important; }
+  }
 </style>
 </head>
 <body>
@@ -507,7 +521,7 @@
 <section class="hero" id="inicio" aria-roledescription="carrossel" aria-label="Coleção Fim de Ano 2026">
   <div class="hero-slide ativo"><img src="fotos/hannah-1.jpg" alt="Vestido Hannah"></div>
   <div class="hero-slide"><picture><source srcset="fotos/raabe-bordo-1-topo.jpg"><img src="fotos/raabe-bordo-1.jpg" alt="Conjunto Raabe bordô" loading="lazy"></picture></div>
-  <div class="hero-slide"><img src="fotos/raabe-amarelo-1.jpg" alt="Conjunto Raabe amarelo manteiga" loading="lazy"></div>
+  <div class="hero-slide"><img src="fotos/raabe-amarelo-2.jpg" alt="Conjunto Raabe amarelo manteiga" loading="lazy"></div>
   <div class="hero-texto">
     <p class="linha">Lançamentos 2026</p>
     <div class="hero-arco"><h1>Coleção <em>Fim de Ano</em></h1></div>
