@@ -589,7 +589,7 @@
     <div class="recados-lista" id="recados-lista"><p class="recados-vazio">Carregando avaliações…</p></div>
     <form class="recado-form" id="recado-form" novalidate>
       <h3>Avalie a sua Adaliah</h3>
-      <p class="ajuda">Comprou e amou? Conta como ficou e poste uma foto usando a peça. Sua avaliação aparece aqui no mural depois que a Nathaly der uma olhadinha.</p>
+      <p class="ajuda">Comprou e amou? Conta como ficou e poste uma foto usando a peça. Sua avaliação aparece aqui no mural na hora.</p>
       <div class="campos">
         <label for="rec-nome">Seu nome</label>
         <input id="rec-nome" type="text" autocomplete="given-name" placeholder="Seu nome" maxlength="60" required>
@@ -931,7 +931,7 @@ document.querySelectorAll(".categoria[data-filtro]").forEach(function (c) {
   });
 });
 
-/* Avaliações com foto (guardadas no Supabase; aparecem depois da aprovação da Nathaly) */
+/* Avaliações com foto (guardadas no Supabase; aparecem na hora, a Nathaly pode tirar pela página moderar.html) */
 const SUPA = { url: "https://kctrxihxawzftqnmukdc.supabase.co", chave: "sb_publishable_oLa_Lvs8hNbcRuxP6Q2Auw_cbCH3H3Q" };
 (function () {
   const lista = document.getElementById("recados-lista");
@@ -1017,7 +1017,8 @@ const SUPA = { url: "https://kctrxihxawzftqnmukdc.supabase.co", chave: "sb_publi
     }).then(function (r) {
       if (!r.ok) throw new Error("texto");
       form.reset(); document.getElementById("foto-tirar").click();
-      aviso.textContent = "Obrigada! 💙 Sua avaliação foi enviada e aparece aqui no mural assim que a Nathaly aprovar.";
+      aviso.textContent = "Obrigada! 💙 Sua avaliação já está no mural.";
+      carregar(); lista.scrollIntoView({ behavior: "smooth", block: "start" });
     }).catch(function () {
       aviso.textContent = "Ops, não consegui enviar agora. Confira a internet e tente de novo.";
     }).finally(function () { enviar.disabled = false; });

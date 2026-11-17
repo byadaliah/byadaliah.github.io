@@ -36,7 +36,7 @@
 </style>
 </head>
 <body>
-<header><img src="marca/logo-branco.png" alt="Adaliah"><p>Aprovação de avaliações</p></header>
+<header><img src="marca/logo-branco.png" alt="Adaliah"><p>Avaliações do site</p></header>
 <main>
   <form class="entrar" id="entrar" hidden>
     <label for="chave">Chave de aprovação</label>
@@ -45,8 +45,8 @@
   </form>
   <div id="painel" hidden>
     <div class="abas">
-      <button type="button" data-aba="pendentes" aria-pressed="true">Esperando <span id="n-pend"></span></button>
-      <button type="button" data-aba="aprovadas" aria-pressed="false">No site <span id="n-apr"></span></button>
+      <button type="button" data-aba="aprovadas" aria-pressed="true">No site <span id="n-apr"></span></button>
+      <button type="button" data-aba="pendentes" aria-pressed="false">Escondidas <span id="n-pend"></span></button>
     </div>
     <div id="lista"></div>
   </div>
@@ -57,7 +57,7 @@ const SUPA = { url: "https://kctrxihxawzftqnmukdc.supabase.co", chave: "sb_publi
 const cab = function (extra) { const h = Object.assign({ apikey: SUPA.chave, "Content-Type": "application/json" }, extra || {}); if (!/^sb_/.test(SUPA.chave)) h.Authorization = "Bearer " + SUPA.chave; return h; };
 const esc = function (t) { return String(t || "").replace(/[&<>"']/g, function (c) { return { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]; }); };
 const aviso = document.getElementById("aviso");
-let chave = "", itens = [], aba = "pendentes";
+let chave = "", itens = [], aba = "aprovadas";
 try { const m = location.hash.match(/chave=([^&]+)/); if (m) { localStorage.setItem("adaliah-chave", decodeURIComponent(m[1])); history.replaceState(null, "", location.pathname); } chave = localStorage.getItem("adaliah-chave") || ""; } catch (e) {}
 
 function rpc(nome, corpo) {
@@ -85,9 +85,9 @@ function desenhar() {
     const foto = i.foto ? '<img src="' + SUPA.url + "/storage/v1/object/public/recados/" + esc(i.foto) + '" alt="Foto enviada por ' + esc(i.nome) + '">' : "";
     const data = new Date(i.criado_em).toLocaleString("pt-BR", { day: "2-digit", month: "2-digit", hour: "2-digit", minute: "2-digit" });
     return '<article class="item' + (i.foto ? "" : " sem-foto") + '">' + foto + '<div><div class="nota">' + "★".repeat(i.nota) + '</div><p class="texto">' + esc(i.texto) + '</p><div class="quem">' + esc(i.nome) + (i.cidade ? " · " + esc(i.cidade) : "") + (i.peca ? " · " + esc(i.peca) : "") + " · " + data + '</div><div class="acoes">' +
-      (i.aprovado ? '<button class="sec" data-acao="ocultar" data-id="' + i.id + '">Tirar do site</button>' : '<button data-acao="aprovar" data-id="' + i.id + '">Aprovar</button>') +
+      (i.aprovado ? '<button class="sec" data-acao="ocultar" data-id="' + i.id + '">Esconder do site</button>' : '<button data-acao="aprovar" data-id="' + i.id + '">Mostrar de novo</button>') +
       '<button class="perigo" data-acao="apagar" data-id="' + i.id + '">Apagar</button></div></div></article>';
-  }).join("") : '<p class="vazio">' + (aba === "pendentes" ? "Nenhuma avaliação esperando aprovação." : "Nenhuma avaliação no site ainda.") + "</p>";
+  }).join("") : '<p class="vazio">' + (aba === "pendentes" ? "Nenhuma avaliação escondida." : "Nenhuma avaliação no site ainda.") + "</p>";
 }
 document.getElementById("entrar").addEventListener("submit", function (e) {
   e.preventDefault(); chave = document.getElementById("chave").value.trim();
@@ -108,7 +108,7 @@ document.getElementById("lista").addEventListener("click", function (e) {
   p.then(function () {
     if (acao === "apagar") itens = itens.filter(function (i) { return i.id !== id; });
     else itens.forEach(function (i) { if (i.id === id) i.aprovado = acao === "aprovar"; });
-    aviso.textContent = acao === "aprovar" ? "Aprovada! Já aparece no site." : acao === "ocultar" ? "Tirada do site." : "Apagada.";
+    aviso.textContent = acao === "aprovar" ? "Voltou para o site." : acao === "ocultar" ? "Escondida do site." : "Apagada.";
     desenhar();
   }).catch(function () { aviso.textContent = "Não deu certo. Tente de novo."; b.disabled = false; });
 });
