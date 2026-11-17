@@ -16,7 +16,7 @@
 <meta name="twitter:card" content="summary_large_image">
 <link rel="icon" type="image/png" href="marca/favicon.png">
 <link rel="apple-touch-icon" href="marca/apple-touch-icon.png">
-<meta name="theme-color" content="#2E86AD">
+<meta name="theme-color" content="#1D6A8D">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Cormorant:ital,wght@0,400;0,500;1,400;1,500&family=Jost:wght@300;400;500&display=swap" rel="stylesheet">
 <style>
@@ -358,6 +358,60 @@
   .rodape-logo { height: 56px; width: auto; flex-basis: 100%; max-width: 70px; object-fit: contain; }
   footer { flex-direction: column; align-items: center; text-align: center; gap: 6px; padding-top: 28px; border-top: 1px solid var(--bruma); }
   .rodape-logo { max-width: none; flex-basis: auto; height: 80px; }
+
+  /* ===== Texturas e ornamentos do logo (v5) ===== */
+  .aviso { background: #1D6A8D; color: #fff; }
+  .aviso-trilho span::after { color: #A9D3E4; }
+  .topo { background: #3A8FB4 url(marca/textura.jpg) center / cover; }
+  .topo-dentro { padding: 10px 20px 8px; gap: 0; }
+  .marca-logo img { height: 78px; }
+  @media (min-width: 760px) { .marca-logo img { height: 96px; } .menu a { color: rgba(255,255,255,.85); } .menu a:hover { color: #fff; border-bottom-color: #fff; } }
+  .hero { aspect-ratio: 3 / 4; max-height: 90vh; }
+  @media (min-width: 760px) { .hero { aspect-ratio: 16 / 7; } }
+
+  .secao-titulo::before { content: ""; display: block; width: 170px; height: 30px; margin-bottom: 4px;
+    background: url(marca/coracao-azul.png) center / 30px no-repeat,
+      linear-gradient(var(--azul), var(--azul)) left center / 58px 1px no-repeat,
+      linear-gradient(var(--azul), var(--azul)) right center / 58px 1px no-repeat; }
+
+  .frete, .como, .recado-form { background: #F3F9FB url(marca/textura-clara.jpg) center / cover; border: 0; border-radius: 2px;
+    box-shadow: inset 0 0 0 6px rgba(255,255,255,.9), inset 0 0 0 7px var(--bruma); }
+
+  .quem, footer { margin-left: calc(50% - 50vw); margin-right: calc(50% - 50vw); padding-left: max(20px, calc(50vw - 570px)); padding-right: max(20px, calc(50vw - 570px)); }
+  .quem { background: #3A8FB4 url(marca/textura.jpg) center / cover; color: #fff; border-top: 0; padding-top: 44px; padding-bottom: 44px; margin-top: 64px; }
+  .quem-texto .linha, .quem-texto h3 { color: #fff; }
+  .quem-texto p:not(.linha) { color: rgba(255,255,255,.9); }
+  .quem-video { border-radius: 999px 999px 4px 4px; box-shadow: 0 0 0 6px rgba(255,255,255,.18); }
+  .insta-botao { color: #fff; border-color: #fff; }
+  .insta-botao:hover { background: rgba(255,255,255,.12); }
+
+  .recados { margin-top: 8px; }
+  .recados-lista { display: grid; gap: 14px; margin-bottom: 22px; }
+  @media (min-width: 760px) { .recados-lista { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
+  .recados-vazio { text-align: center; font-family: var(--display); font-style: italic; font-size: 20px; color: var(--anil-suave); }
+  .recado { margin: 0; padding: 22px; background: var(--nuvem); border: 1px solid var(--bruma); border-radius: 999px 999px 4px 4px; text-align: center; }
+  .recado blockquote { margin: 0; font-family: var(--display); font-style: italic; font-size: 19px; line-height: 1.35; }
+  .recado figcaption { margin-top: 10px; font-size: 12px; letter-spacing: 0.16em; text-transform: uppercase; color: var(--azul); }
+  .recado-form { padding: 26px 24px; display: grid; gap: 10px; max-width: 640px; margin: 0 auto; }
+  .recado-form h3 { font-family: var(--display); font-weight: 500; font-size: 26px; }
+  .recado-form .ajuda { color: var(--anil-suave); }
+  .recado-form label { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); }
+  .recado-form .campos { display: grid; gap: 10px; }
+  @media (min-width: 560px) { .recado-form .campos { grid-template-columns: 1fr 1fr; } }
+  .recado-form input, .recado-form textarea { font: inherit; font-size: 16px; color: var(--anil); background: var(--nuvem); border: 1px solid var(--bruma); border-radius: 14px; padding: 12px 16px; width: 100%; resize: vertical; }
+  .recado-form input:focus-visible, .recado-form textarea:focus-visible { outline: 2px solid var(--azul); outline-offset: 1px; }
+  .recado-form button { justify-self: start; font: inherit; font-weight: 500; font-size: 13px; letter-spacing: 0.16em; text-transform: uppercase; min-height: 48px; padding: 0 26px; border: 0; border-radius: 999px; background: var(--azul); color: #fff; cursor: pointer; }
+  .recado-form button:hover { background: var(--anil); }
+  .aviso-form { font-size: 14px; color: var(--azul); min-height: 1em; }
+
+  footer { margin-top: 56px; background: #3A8FB4 url(marca/textura.jpg) center / cover; color: rgba(255,255,255,.9); border-top: 0; padding-top: 34px; padding-bottom: 40px; }
+  .pagina { padding-bottom: 0; }
+  .arcos { width: 220px; height: 34px; fill: none; stroke: rgba(255,255,255,.85); stroke-width: 1.2; }
+  .rodape-logo { height: 92px; }
+
+  .ficha-barra { background: #3A8FB4 url(marca/textura.jpg) center / cover; border-bottom: 0; }
+  .ficha-barra .marca-mini-img { height: 44px; }
+  .ficha-fechar { color: #fff; border-color: rgba(255,255,255,.8); }
 </style>
 </head>
 <body>
@@ -372,7 +426,7 @@
 
 <header class="topo">
   <div class="topo-dentro">
-    <a class="marca-logo" href="#inicio"><img src="marca/logo-azul.png" alt="Adaliah, moda com propósito" width="900" height="723"></a>
+    <a class="marca-logo" href="#inicio"><img src="marca/logo-branco.png" alt="Adaliah, moda com propósito" width="900" height="723"></a>
     <nav class="menu" aria-label="Seções">
       <a href="#lancamentos">Lançamentos</a>
       <a href="#pecas">Peças</a>
@@ -459,8 +513,30 @@
     </div>
   </section>
 
+  <section class="recados" id="recados" aria-labelledby="recados-titulo">
+    <div class="secao-titulo">
+      <h2 id="recados-titulo">Recados</h2>
+      <p>O que nossas clientes dizem</p>
+    </div>
+    <div class="recados-lista" id="recados-lista"></div>
+    <form class="recado-form" id="recado-form" novalidate>
+      <h3>Deixe seu recado</h3>
+      <p class="ajuda">Comprou, provou ou só se apaixonou? Conta pra gente. Seu recado chega pra Nathaly e aparece aqui no site.</p>
+      <div class="campos">
+        <label for="rec-nome">Seu nome</label>
+        <input id="rec-nome" type="text" autocomplete="given-name" placeholder="Seu nome" required>
+        <label for="rec-cidade">Sua cidade</label>
+        <input id="rec-cidade" type="text" autocomplete="address-level2" placeholder="Sua cidade (opcional)">
+      </div>
+      <label for="rec-texto">Seu recado</label>
+      <textarea id="rec-texto" rows="4" placeholder="Escreva aqui o seu recado" required></textarea>
+      <p class="aviso-form" id="rec-aviso" role="status"></p>
+      <button type="submit">Enviar recado</button>
+    </form>
+  </section>
+
   <footer>
-    <img class="rodape-logo" src="marca/logo-azul.png" alt="Adaliah" loading="lazy">
+    <img class="rodape-logo" src="marca/logo-branco.png" alt="Adaliah" loading="lazy">
     <span>Adaliah · moda com propósito</span>
     <span>Peças feitas à mão, em quantidade limitada</span>
   </footer>
@@ -468,7 +544,7 @@
 
 <div class="ficha" id="ficha" role="dialog" aria-modal="true" aria-label="Detalhes da peça" hidden>
   <div class="ficha-barra"><div>
-    <img class="marca-mini-img" src="marca/logo-azul.png" alt="Adaliah">
+    <img class="marca-mini-img" src="marca/logo-branco.png" alt="Adaliah">
     <button type="button" class="ficha-fechar" id="ficha-fechar">← Voltar ao catálogo</button>
   </div></div>
   <div class="ficha-corpo" id="ficha-corpo"></div>
@@ -547,6 +623,9 @@ Object.keys(TABELA).forEach(function (uf) {
     { servico: "PAC",   transportadora: "Correios", valor: t[0], prazo: "até " + t[1] + " dias úteis" },
     { servico: "SEDEX", transportadora: "Correios", valor: t[2], prazo: "até " + t[3] + " dias úteis" } ] };
 });
+
+/* Recados aprovados pela Nathaly. Formato: { nome: "Maria", cidade: "São Paulo", texto: "..." } */
+const RECADOS = [];
 /* ========================================== */
 
 /* Descobre a região pelos 5 primeiros dígitos do CEP */
@@ -764,6 +843,30 @@ document.querySelectorAll(".categoria[data-filtro]").forEach(function (c) {
     if (b) b.click();
   });
 });
+
+/* Recados */
+(function () {
+  const lista = document.getElementById("recados-lista");
+  if (!RECADOS.length) {
+    lista.innerHTML = '<p class="recados-vazio">Ainda não temos recados por aqui. Seja a primeira a deixar o seu!</p>';
+  } else {
+    lista.innerHTML = RECADOS.map(function (r) {
+      return '<figure class="recado"><blockquote>' + r.texto + '</blockquote><figcaption>' + r.nome + (r.cidade ? ' · ' + r.cidade : '') + '</figcaption></figure>';
+    }).join("");
+  }
+  const form = document.getElementById("recado-form");
+  const aviso = document.getElementById("rec-aviso");
+  form.addEventListener("submit", function (e) {
+    e.preventDefault();
+    const nome = document.getElementById("rec-nome").value.trim();
+    const cidade = document.getElementById("rec-cidade").value.trim();
+    const texto = document.getElementById("rec-texto").value.trim();
+    if (!nome || !texto) { aviso.textContent = "Escreva seu nome e o recado para enviar."; return; }
+    aviso.textContent = "Abrindo o WhatsApp para você enviar o recado.";
+    const msg = "Recado para o site da Adaliah:\n\n" + texto + "\n\n" + nome + (cidade ? ", " + cidade : "");
+    window.open("https://wa.me/" + WHATSAPP + "?text=" + encodeURIComponent(msg), "_blank", "noopener");
+  });
+})();
 
 /* Carrossel do topo */
 (function () {
