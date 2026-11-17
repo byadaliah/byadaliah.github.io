@@ -43,7 +43,7 @@
   a { color: inherit; }
   a:focus-visible, button:focus-visible { outline: 2px solid var(--anil); outline-offset: 3px; }
 
-  .pagina { max-width: 1080px; margin: 0 auto; padding: 0 20px 56px; }
+  .pagina { max-width: 1180px; margin: 0 auto; padding: 0 20px 56px; }
 
   header { padding: 28px 0 8px; display: flex; align-items: baseline; justify-content: space-between; gap: 16px; }
   .marca { font-family: var(--display); font-size: 34px; font-weight: 500; letter-spacing: 0.02em; line-height: 1; }
@@ -100,11 +100,11 @@
   .pedir svg { width: 20px; height: 20px; flex: none; }
   @media (prefers-reduced-motion: reduce) { .pedir { transition: none; } }
 
-  .mais { margin-top: 56px; padding-top: 28px; border-top: 1px solid var(--bruma); display: grid; gap: 4px; }
+  .mais { margin-top: 24px; display: grid; gap: 4px; }
   .mais[hidden], .grade[hidden] { display: none; }
   .mais h2 { font-family: var(--display); font-weight: 400; font-size: clamp(30px, 7vw, 44px); line-height: 1.05; }
   .mais p { color: var(--anil-suave); }
-  .frete { margin-top: 48px; padding: 24px; background: var(--nuvem); border-radius: 2px; display: grid; grid-template-columns: minmax(0, 1fr); gap: 14px; }
+  .frete { margin-top: 64px; scroll-margin-top: 120px; padding: 24px; background: var(--nuvem); border-radius: 2px; display: grid; grid-template-columns: minmax(0, 1fr); gap: 14px; }
   .frete h3 { font-family: var(--display); font-weight: 500; font-size: 24px; }
   .frete p.ajuda { color: var(--anil-suave); max-width: 40em; margin-top: -8px; }
   .frete form { display: flex; flex-wrap: wrap; gap: 10px; }
@@ -136,7 +136,7 @@
   .como h3 { font-family: var(--display); font-weight: 500; font-size: 24px; }
   .como p { color: var(--anil-suave); max-width: 40em; }
 
-  .quem { margin-top: 48px; padding-top: 32px; border-top: 1px solid var(--bruma); display: grid; gap: 24px; align-items: center; }
+  .quem { scroll-margin-top: 110px; margin-top: 48px; padding-top: 32px; border-top: 1px solid var(--bruma); display: grid; gap: 24px; align-items: center; }
   @media (min-width: 760px) { .quem { grid-template-columns: minmax(0, 360px) minmax(0, 1fr); gap: 48px; } }
   .quem-video { width: 100%; max-width: 360px; justify-self: center; aspect-ratio: 9 / 16; background: var(--bruma); border-radius: 2px; overflow: hidden; }
   .quem-video video { width: 100%; height: 100%; object-fit: cover; display: block; }
@@ -147,30 +147,237 @@
   .insta-botao { justify-self: start; margin-top: 6px; display: inline-flex; align-items: center; min-height: 48px; padding: 0 22px; border: 1px solid var(--anil); border-radius: 999px; color: var(--anil); text-decoration: none; font-weight: 500; font-size: 15px; }
   .insta-botao:hover { background: var(--nuvem); }
   footer { margin-top: 36px; display: flex; flex-wrap: wrap; justify-content: space-between; gap: 8px 24px; font-size: 13px; color: var(--anil-suave); }
+
+  /* ===== Estrutura de loja ===== */
+  .aviso { background: var(--anil); color: #fff; overflow: hidden; white-space: nowrap; font-size: 11px; letter-spacing: 0.24em; text-transform: uppercase; font-weight: 400; }
+  .aviso-trilho { display: inline-flex; animation: correr 38s linear infinite; }
+  .aviso-trilho span { padding: 10px 0; display: inline-flex; align-items: center; }
+  .aviso-trilho span::after { content: "✦"; margin: 0 22px; color: #9DB8D8; font-size: 9px; }
+  @keyframes correr { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+  @media (prefers-reduced-motion: reduce) { .aviso-trilho { animation: none; } }
+
+  .topo { background: var(--nuvem); border-bottom: 1px solid var(--bruma); position: sticky; top: 0; z-index: 20; }
+  .topo-dentro { max-width: 1180px; margin: 0 auto; padding: 14px 20px 0; display: grid; justify-items: center; gap: 8px; }
+  .topo .marca { font-family: var(--display); font-size: 36px; font-weight: 500; letter-spacing: 0.06em; line-height: 1; text-decoration: none; color: var(--anil); }
+  .menu { display: flex; gap: 26px; overflow-x: auto; max-width: 100%; padding: 6px 2px 12px; scrollbar-width: none; }
+  .menu::-webkit-scrollbar { display: none; }
+  .menu a { font-size: 12px; letter-spacing: 0.18em; text-transform: uppercase; text-decoration: none; color: var(--anil-suave); font-weight: 400; white-space: nowrap; padding: 4px 0; border-bottom: 1px solid transparent; }
+  .menu a:hover { color: var(--anil); border-bottom-color: var(--anil); }
+
+  .hero { position: relative; background: var(--bruma); overflow: hidden; aspect-ratio: 4 / 5; max-height: 86vh; width: 100%; }
+  @media (min-width: 760px) { .hero { aspect-ratio: 16 / 7; max-height: 640px; } }
+  .hero-slide { position: absolute; inset: 0; opacity: 0; transition: opacity .9s ease; }
+  .hero-slide.ativo { opacity: 1; }
+  .hero-slide img { width: 100%; height: 100%; object-fit: cover; object-position: center 28%; }
+  .hero::after { content: ""; position: absolute; inset: 0; background: linear-gradient(180deg, rgba(30,51,80,0) 45%, rgba(30,51,80,.55) 100%); pointer-events: none; }
+  .hero-texto { position: absolute; left: 0; right: 0; bottom: 0; z-index: 2; color: #fff; text-align: center; padding: 0 24px 54px; display: grid; justify-items: center; gap: 10px; }
+  .hero-texto .linha { font-size: 11px; letter-spacing: 0.3em; text-transform: uppercase; font-weight: 400; }
+  .hero-texto h1 { font-family: var(--display); font-weight: 400; font-size: clamp(40px, 10vw, 72px); line-height: 1; text-wrap: balance; }
+  .hero-texto h1 em { font-style: italic; }
+  .hero-texto p { max-width: 30em; font-size: 15px; color: rgba(255,255,255,.9); }
+  .hero-botao { margin-top: 6px; display: inline-flex; align-items: center; min-height: 48px; padding: 0 30px; background: #fff; color: var(--anil); text-decoration: none; font-size: 12px; letter-spacing: 0.22em; text-transform: uppercase; font-weight: 500; border-radius: 999px; }
+  .hero-pontos { position: absolute; z-index: 3; bottom: 20px; left: 0; right: 0; display: flex; justify-content: center; gap: 8px; }
+  .hero-pontos button { width: 28px; height: 3px; padding: 0; border: 0; background: rgba(255,255,255,.45); cursor: pointer; border-radius: 2px; }
+  .hero-pontos button[aria-current="true"] { background: #fff; }
+  @media (prefers-reduced-motion: reduce) { .hero-slide { transition: none; } }
+
+  .secao-titulo { scroll-margin-top: 110px; margin: 56px 0 24px; display: grid; justify-items: center; gap: 8px; text-align: center; }
+  .secao-titulo h2 { font-family: var(--corpo); font-size: 14px; letter-spacing: 0.32em; text-transform: uppercase; font-weight: 500; color: var(--anil); }
+  .secao-titulo h2::after { content: ""; display: block; width: 36px; height: 1px; background: var(--azul); margin: 12px auto 0; }
+  .secao-titulo p { color: var(--anil-suave); font-size: 15px; }
+
+  .filtros { display: flex; justify-content: center; flex-wrap: wrap; gap: 8px; margin: -8px 0 22px; }
+  .filtros button { font: inherit; font-size: 12px; letter-spacing: 0.16em; text-transform: uppercase; font-weight: 400; min-height: 38px; padding: 0 18px; background: transparent; color: var(--anil); border: 1px solid var(--bruma); border-radius: 999px; cursor: pointer; }
+  .filtros button[aria-pressed="true"] { background: var(--anil); color: #fff; border-color: var(--anil); }
+
+  .vitrine { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 26px 14px; }
+  @media (min-width: 760px) { .vitrine { grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 40px 22px; } }
+  .vitrine.destaque { gap: 26px 14px; }
+  @media (min-width: 760px) { .vitrine.destaque { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 28px; } }
+  .card { display: grid; gap: 10px; text-decoration: none; color: var(--anil); }
+  .card[hidden] { display: none; }
+  .card-foto { position: relative; aspect-ratio: 3 / 4; overflow: hidden; background: var(--bruma); border-radius: 2px; }
+  .card-foto img { width: 100%; height: 100%; object-fit: cover; object-position: center 22%; transition: transform .6s ease; }
+  .card:hover .card-foto img { transform: scale(1.04); }
+  @media (prefers-reduced-motion: reduce) { .card-foto img { transition: none; } .card:hover .card-foto img { transform: none; } }
+  .card .selo { left: 10px; top: 10px; font-size: 10px; padding: 5px 9px; }
+  .card-info { display: grid; gap: 2px; text-align: center; }
+  .card-info h3 { font-family: var(--display); font-weight: 500; font-size: 21px; line-height: 1.15; }
+  .vitrine.destaque .card-info h3 { font-size: 26px; }
+  .card-info .card-preco { font-size: 15px; font-variant-numeric: tabular-nums; font-weight: 400; }
+  .card-bolinhas { display: flex; justify-content: center; gap: 6px; margin-top: 4px; }
+  .card-bolinhas i { width: 14px; height: 14px; border-radius: 50%; border: 1px solid rgba(30,51,80,.2); }
+  .card-acao { justify-self: center; margin-top: 8px; display: inline-flex; align-items: center; min-height: 40px; padding: 0 22px; border: 1px solid var(--anil); border-radius: 999px; font-size: 11px; letter-spacing: 0.2em; text-transform: uppercase; font-weight: 500; }
+  .card:hover .card-acao { background: var(--anil); color: #fff; }
+
+  .ficha { position: fixed; inset: 0; z-index: 50; background: var(--ceu); overflow-y: auto; overscroll-behavior: contain; }
+  .ficha[hidden] { display: none; }
+  .ficha-barra { position: sticky; top: 0; z-index: 2; background: var(--nuvem); border-bottom: 1px solid var(--bruma); }
+  .ficha-barra div { max-width: 1080px; margin: 0 auto; padding: 10px 20px; display: flex; align-items: center; justify-content: space-between; gap: 12px; }
+  .ficha-barra .marca-mini { font-family: var(--display); font-size: 24px; font-weight: 500; letter-spacing: 0.06em; }
+  .ficha-fechar { font: inherit; font-size: 12px; letter-spacing: 0.16em; text-transform: uppercase; font-weight: 500; min-height: 40px; padding: 0 16px; background: transparent; color: var(--anil); border: 1px solid var(--bruma); border-radius: 999px; cursor: pointer; }
+  .ficha-corpo { max-width: 1080px; margin: 0 auto; padding: 20px 20px 64px; }
+  @media (min-width: 760px) {
+    .ficha .peca { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); column-gap: 48px; row-gap: 16px; align-content: start; }
+    .ficha .peca > .foto { grid-column: 1; grid-row: 1 / 7; }
+    .ficha .peca > .miniaturas { grid-column: 1; grid-row: 7; }
+    .ficha .peca > :not(.foto):not(.miniaturas) { grid-column: 2; }
+    .ficha .peca > .dados { padding-top: 8px; }
+  }
+  .ficha .dados h2 { font-size: 34px; }
+  #fichas { display: none; }
+
+  .zap-flutuante { position: fixed; right: 18px; bottom: 18px; z-index: 40; width: 56px; height: 56px; border-radius: 50%; background: #25D366; color: #fff; display: grid; place-items: center; box-shadow: 0 6px 20px rgba(30,51,80,.25); }
+  .zap-flutuante svg { width: 30px; height: 30px; }
+  body.ficha-aberta { overflow: hidden; }
+  body.ficha-aberta .zap-flutuante { display: none; }
+
+  /* ===== Linguagem de loja (v2) ===== */
+  body { background: var(--nuvem); padding-bottom: 68px; }
+  @media (min-width: 760px) { body { padding-bottom: 0; } }
+  .aviso { font-size: 12px; letter-spacing: 0.12em; font-weight: 500; }
+  .aviso-trilho span { padding: 11px 0; }
+  .aviso-trilho span::after { margin: 0 34px; }
+  .topo { position: static; border-bottom: 0; }
+  .topo-dentro { padding: 26px 20px 18px; }
+  .topo .marca { font-size: 44px; letter-spacing: 0.14em; text-transform: uppercase; font-weight: 400; }
+  .topo .marca-sub { font-size: 10px; letter-spacing: 0.42em; text-transform: uppercase; color: var(--anil-suave); margin-top: -4px; }
+  .menu { display: none; }
+  @media (min-width: 760px) { .menu { display: flex; padding-top: 10px; } }
+
+  .hero { aspect-ratio: 4 / 5; }
+  @media (min-width: 760px) { .hero { aspect-ratio: 16 / 7; } }
+  .hero::after { background: linear-gradient(180deg, rgba(30,51,80,.10) 0%, rgba(30,51,80,0) 30%, rgba(30,51,80,0) 55%, rgba(30,51,80,.45) 100%); }
+  .hero-lateral { position: absolute; z-index: 2; left: 16px; top: 22px; display: grid; justify-items: start; gap: 10px; color: #fff; }
+  .hero-lateral .estrela { font-size: 14px; line-height: 1; margin-left: -4px; }
+  .hero-lateral .fio { width: 1px; height: 120px; background: rgba(255,255,255,.8); }
+  .hero-lateral small { font-family: var(--display); font-size: 15px; line-height: 1.15; max-width: 9em; font-style: italic; }
+  .hero-texto { padding-bottom: 58px; gap: 6px; }
+  .hero-texto .linha { font-size: 10px; letter-spacing: 0.34em; }
+  .hero-texto h1 { font-size: clamp(46px, 13vw, 92px); line-height: .95; font-weight: 500; }
+  .hero-texto h1 em { font-weight: 400; display: block; margin-top: -2px; }
+  .hero-texto p { display: none; }
+  .hero-botao { border-radius: 0; background: transparent; color: #fff; border: 1px solid #fff; min-height: 44px; margin-top: 12px; }
+  .hero-pontos { bottom: 22px; }
+  .hero-pontos button { width: 8px; height: 8px; border-radius: 50%; }
+
+  .categorias { display: grid; grid-auto-flow: column; grid-auto-columns: 46%; gap: 8px; overflow-x: auto; scroll-snap-type: x mandatory; padding: 8px 0 0; scrollbar-width: none; }
+  .categorias::-webkit-scrollbar { display: none; }
+  @media (min-width: 760px) { .categorias { grid-auto-columns: 1fr; grid-auto-flow: column; overflow: visible; gap: 12px; max-width: 1180px; margin: 0 auto; padding: 12px 20px 0; } }
+  .categoria { position: relative; aspect-ratio: 4 / 5; overflow: hidden; scroll-snap-align: start; display: block; color: #fff; text-decoration: none; background: var(--bruma); }
+  .categoria img { width: 100%; height: 100%; object-fit: cover; object-position: center 22%; transition: transform .6s ease; }
+  .categoria:hover img { transform: scale(1.04); }
+  .categoria::after { content: ""; position: absolute; inset: 0; background: linear-gradient(180deg, rgba(30,51,80,0) 50%, rgba(30,51,80,.5) 100%); }
+  .categoria span { position: absolute; z-index: 2; left: 0; right: 0; bottom: 16px; text-align: center; font-family: var(--display); font-size: 20px; letter-spacing: 0.06em; text-transform: uppercase; text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: 6px; }
+  @media (prefers-reduced-motion: reduce) { .categoria img { transition: none; } .categoria:hover img { transform: none; } }
+
+  .secao-titulo { margin: 52px 0 26px; gap: 6px; }
+  .secao-titulo h2 { font-size: clamp(26px, 7vw, 34px); letter-spacing: 0.06em; font-weight: 400; color: var(--anil); }
+  .secao-titulo h2::after { display: none; }
+  .secao-titulo p { font-family: var(--display); font-style: italic; font-size: 18px; }
+
+  .vitrine, .vitrine.destaque { margin: 0 -20px; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 36px 8px; }
+  @media (min-width: 760px) { .vitrine, .vitrine.destaque { margin: 0; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 44px 16px; } .vitrine.destaque { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+  .card { grid-template-rows: auto 1fr; gap: 14px; }
+  .card-foto { border-radius: 0; aspect-ratio: 3 / 4; }
+  .card .selo { border-radius: 0; background: var(--anil); color: #fff; left: 0; top: 14px; padding: 6px 10px; letter-spacing: 0.18em; }
+  .card-info { display: flex; flex-direction: column; align-items: flex-start; text-align: left; gap: 6px; padding: 0 12px; }
+  @media (min-width: 760px) { .card-info { padding: 0 2px; } }
+  .card-info h3, .vitrine.destaque .card-info h3 { font-family: var(--corpo); font-size: 15px; font-weight: 400; letter-spacing: 0.06em; text-transform: uppercase; line-height: 1.3; }
+  .card-info .card-preco { font-size: 17px; font-weight: 400; margin: 2px 0 0; }
+  .card-bolinhas { justify-content: flex-start; gap: 8px; margin: 4px 0 0; }
+  .card-bolinhas i { width: 22px; height: 22px; }
+  .card-info .card-acao { margin-top: auto !important; justify-self: start; align-self: flex-start; }
+  .card-acao { border-radius: 0; background: var(--anil); color: #fff; border: 0; min-height: 42px; padding: 0 20px; font-size: 12px; letter-spacing: 0.22em; position: static; transform: none; }
+  .card-info > .card-acao { margin-top: 14px; }
+  .card-info { flex: 1; }
+  .card-info .espaco { flex: 1; min-height: 12px; }
+  .card:hover .card-acao { background: var(--azul); }
+
+  .barra-app { position: fixed; left: 0; right: 0; bottom: 0; z-index: 45; background: var(--nuvem); border-top: 1px solid var(--bruma); display: grid; grid-template-columns: repeat(4, 1fr); padding: 6px 0 calc(6px + env(safe-area-inset-bottom)); }
+  @media (min-width: 760px) { .barra-app { display: none; } }
+  .barra-app a { display: grid; justify-items: center; gap: 2px; text-decoration: none; color: var(--anil); font-size: 10px; letter-spacing: 0.1em; text-transform: uppercase; padding: 4px 0; }
+  .barra-app svg { width: 24px; height: 24px; fill: none; stroke: currentColor; stroke-width: 1.5; stroke-linecap: round; stroke-linejoin: round; }
+  .zap-flutuante { bottom: 84px; }
+  @media (min-width: 760px) { .zap-flutuante { bottom: 18px; } }
+  body.ficha-aberta .barra-app { display: none; }
+  .frete, .como { border: 1px solid var(--bruma); background: var(--ceu); }
+  .ficha .selo { border-radius: 0; background: var(--anil); color: #fff; left: 0; top: 14px; }
+  .ficha .foto, .ficha .miniaturas button { border-radius: 0; }
+  .ficha .dados h2 { font-family: var(--corpo); font-size: 22px; font-weight: 400; letter-spacing: 0.06em; text-transform: uppercase; }
+  .ficha .preco { font-size: 20px; }
+  .pedir { border-radius: 0; text-transform: uppercase; letter-spacing: 0.16em; font-size: 13px; background: var(--anil); }
+  .pedir:hover { background: var(--azul); }
+  .ficha-fechar { border-radius: 0; }
 </style>
 </head>
 <body>
+<div class="aviso" role="note" aria-label="Moda modesta feita à mão. Enviamos para todo o Brasil. Entrega grátis em Ilhabela. Peça pelo WhatsApp.">
+  <div class="aviso-trilho" aria-hidden="true">
+    <span>Moda modesta feita à mão</span><span>Enviamos para todo o Brasil</span><span>Entrega grátis em Ilhabela</span><span>Peça pelo WhatsApp</span>
+    <span>Moda modesta feita à mão</span><span>Enviamos para todo o Brasil</span><span>Entrega grátis em Ilhabela</span><span>Peça pelo WhatsApp</span>
+    <span>Moda modesta feita à mão</span><span>Enviamos para todo o Brasil</span><span>Entrega grátis em Ilhabela</span><span>Peça pelo WhatsApp</span>
+    <span>Moda modesta feita à mão</span><span>Enviamos para todo o Brasil</span><span>Entrega grátis em Ilhabela</span><span>Peça pelo WhatsApp</span>
+  </div>
+</div>
+
+<header class="topo">
+  <div class="topo-dentro">
+    <a class="marca" href="#inicio">Adaliah</a>
+    <span class="marca-sub">Moda modesta</span>
+    <nav class="menu" aria-label="Seções">
+      <a href="#lancamentos">Lançamentos</a>
+      <a href="#pecas">Peças</a>
+      <a href="#frete">Frete</a>
+      <a href="#sobre">Sobre</a>
+      <a href="https://www.instagram.com/byadaliah/" target="_blank" rel="noopener">Instagram</a>
+    </nav>
+  </div>
+</header>
+
+<section class="hero" id="inicio" aria-roledescription="carrossel" aria-label="Coleção de Natal 2026">
+  <div class="hero-slide ativo"><img src="fotos/hannah-1.jpg" alt="Vestido Hannah"></div>
+  <div class="hero-slide"><img src="fotos/raabe-bordo-1.jpg" alt="Conjunto Raabe bordô" loading="lazy"></div>
+  <div class="hero-slide"><img src="fotos/raabe-amarelo-1.jpg" alt="Conjunto Raabe amarelo manteiga" loading="lazy"></div>
+  <div class="hero-lateral" aria-hidden="true"><span class="estrela">✦</span><span class="fio"></span><small>Feito à mão em Ilhabela</small></div>
+  <div class="hero-texto">
+    <p class="linha">Lançamentos 2026</p>
+    <h1>Coleção <em>de Natal</em></h1>
+    <p>Peças novas, desenhadas e costuradas por Nathaly Coyado. Escolha a sua e peça direto pelo WhatsApp.</p>
+    <a class="hero-botao" href="#lancamentos">Ver lançamentos</a>
+  </div>
+  <div class="hero-pontos" id="hero-pontos"></div>
+</section>
+
+<nav class="categorias" aria-label="Categorias">
+  <a class="categoria" href="#lancamentos"><img src="fotos/raabe-bordo-1.jpg" alt="" loading="lazy"><span>Lançamentos</span></a>
+  <a class="categoria" href="#pecas" data-filtro="vestido"><img src="fotos/atalia-vermelho-1.jpg" alt="" loading="lazy"><span>Vestidos</span></a>
+  <a class="categoria" href="#pecas" data-filtro="conjunto"><img src="fotos/eva-1.jpg" alt="" loading="lazy"><span>Conjuntos</span></a>
+</nav>
+
 <div class="pagina">
-  <header>
-    <div class="marca">Adaliah</div>
-    <a class="insta" href="https://www.instagram.com/byadaliah/" target="_blank" rel="noopener">@byadaliah</a>
-  </header>
+  <div class="secao-titulo" id="lancamentos">
+    <h2>Lançamentos</h2>
+    <p>Novidades da semana, em quantidade limitada</p>
+  </div>
+  <main class="vitrine destaque" id="grade"></main>
 
-  <section class="abertura">
-    <p class="linha">Coleção de Natal 2026</p>
-    <h1>Os lançamentos <em>da semana</em></h1>
-    <p class="texto">Peças novas, desenhadas e costuradas por Nathaly Coyado. Escolha a sua e peça direto pelo WhatsApp.</p>
+  <section class="mais" id="pecas" aria-labelledby="mais-titulo">
+    <div class="secao-titulo">
+      <h2 id="mais-titulo">Peças disponíveis</h2>
+      <p>Prontas para enviar</p>
+    </div>
+    <div class="filtros" id="filtros">
+      <button type="button" aria-pressed="true" data-tipo="todos">Todas</button>
+      <button type="button" aria-pressed="false" data-tipo="vestido">Vestidos</button>
+      <button type="button" aria-pressed="false" data-tipo="conjunto">Conjuntos</button>
+    </div>
   </section>
+  <div class="vitrine" id="grade-disponiveis"></div>
 
-  <main class="grade" id="grade"></main>
+  <div id="fichas"></div>
 
-  <section class="mais" aria-labelledby="mais-titulo">
-    <h2 id="mais-titulo">Também disponíveis</h2>
-    <p>Peças da loja prontas para enviar.</p>
-  </section>
-  <div class="grade" id="grade-disponiveis"></div>
-
-  <section class="frete" aria-labelledby="frete-titulo">
+  <section class="frete" id="frete" aria-labelledby="frete-titulo">
     <h3 id="frete-titulo">Quanto fica o frete?</h3>
     <p class="ajuda">Digite o seu CEP para ver as opções de envio. Enviamos de Ilhabela para todo o Brasil.</p>
     <form id="frete-form" novalidate>
@@ -187,10 +394,10 @@
 
   <section class="como">
     <h3>Como pedir</h3>
-    <p>Toque no botão azul da peça que você gostou. O WhatsApp abre com a mensagem pronta, já com o nome e o valor da peça. É só enviar e combinar tamanho, pagamento e entrega.</p>
+    <p>Toque na peça que você gostou e depois no botão azul. O WhatsApp abre com a mensagem pronta, já com o nome e o valor da peça. É só enviar e combinar tamanho, pagamento e entrega.</p>
   </section>
 
-  <section class="quem" aria-labelledby="quem-titulo">
+  <section class="quem" id="sobre" aria-labelledby="quem-titulo">
     <div class="quem-video">
       <video controls playsinline preload="metadata" poster="video/poster.jpg">
         <source src="video/adaliah.mp4" type="video/mp4">
@@ -209,6 +416,23 @@
     <span>Peças feitas à mão, em quantidade limitada</span>
   </footer>
 </div>
+
+<div class="ficha" id="ficha" role="dialog" aria-modal="true" aria-label="Detalhes da peça" hidden>
+  <div class="ficha-barra"><div>
+    <span class="marca-mini">Adaliah</span>
+    <button type="button" class="ficha-fechar" id="ficha-fechar">← Voltar ao catálogo</button>
+  </div></div>
+  <div class="ficha-corpo" id="ficha-corpo"></div>
+</div>
+
+<nav class="barra-app" aria-label="Atalhos">
+  <a href="#inicio"><svg viewBox="0 0 24 24"><path d="M4 11.5 12 5l8 6.5V20h-5v-5h-6v5H4z"/></svg>Início</a>
+  <a href="#pecas"><svg viewBox="0 0 24 24"><path d="M9 4h6l1 3 3 1-1.5 4-1.5-.5V20H8v-8.5L6.5 12 5 8l3-1z"/></svg>Peças</a>
+  <a href="#frete"><svg viewBox="0 0 24 24"><path d="M3 7h11v9H3zM14 10h4l3 3v3h-7zM7 19a1.5 1.5 0 1 0 0-3 1.5 1.5 0 0 0 0 3zM17 19a1.5 1.5 0 1 0 0-3 1.5 1.5 0 0 0 0 3z"/></svg>Frete</a>
+  <a href="#sobre"><svg viewBox="0 0 24 24"><path d="M12 12a4 4 0 1 0 0-8 4 4 0 0 0 0 8zM5 20a7 7 0 0 1 14 0"/></svg>Sobre</a>
+</nav>
+
+<a class="zap-flutuante" id="zap-flutuante" target="_blank" rel="noopener" aria-label="Falar com a Adaliah no WhatsApp"></a>
 
 <script>
 /* ===== CONFIGURAÇÃO: é só editar aqui ===== */
@@ -314,6 +538,7 @@ function linkPedido(p, tamanho, cor) {
 const grade = document.getElementById("grade");
 const gradeDisp = document.getElementById("grade-disponiveis");
 const atualizadores = [];
+let aberturaInterna = false;
 PRODUTOS.forEach(function (p) {
   const art = document.createElement("article");
   art.className = "peca";
@@ -401,27 +626,114 @@ PRODUTOS.forEach(function (p) {
   }
   montarTamanhos();
   atualizar();
-  (p.secao === "disponivel" ? gradeDisp : grade).appendChild(art);
+  document.getElementById("fichas").appendChild(art);
+
+  /* card da vitrine */
+  const capaCor = (p.cores && p.cores.length) ? p.cores[0] : null;
+  const capa = capaCor ? capaCor.fotos[0] : p.fotos[0];
+  const card = document.createElement("a");
+  card.className = "card";
+  card.href = "#" + p.slug;
+  card.dataset.tipo = p.tipo || "vestido";
+  card.innerHTML =
+    '<div class="card-foto">' + (capa ? '<img src="' + capa + '" alt="' + p.nome + '" loading="lazy">' : '') +
+      (p.selo ? '<span class="selo">' + p.selo + '</span>' : '') + '</div>' +
+    '<div class="card-info"><h3>' + p.nome + '</h3>' +
+      '<span class="card-preco">' + (p.preco || "Preço em breve") + '</span>' +
+      ((p.cores && p.cores.length > 1) ? '<span class="card-bolinhas" aria-label="' + p.cores.length + ' cores">' +
+        p.cores.map(function (c) { return '<i style="background:' + c.amostra + '" title="' + c.nome + '"></i>'; }).join("") + '</span>' : '') +
+      '<span class="espaco"></span><span class="card-acao">Ver peça</span></div>';
+  card.addEventListener("click", function () { aberturaInterna = true; });
+  (p.secao === "disponivel" ? gradeDisp : grade).appendChild(card);
 });
 if (!gradeDisp.children.length) { gradeDisp.hidden = true; document.querySelector(".mais").hidden = true; }
 
-/* Link direto para uma peça: #hannah, #raabe-amarelo */
+/* Ficha da peça: abre por #hannah, #raabe-amarelo */
+const ficha = document.getElementById("ficha");
+const fichaCorpo = document.getElementById("ficha-corpo");
+const deposito = document.getElementById("fichas");
+let artAberto = null, rolagemAntes = 0;
+function fecharFicha() {
+  if (!artAberto) return;
+  deposito.appendChild(artAberto);
+  artAberto = null;
+  ficha.hidden = true;
+  document.body.classList.remove("ficha-aberta");
+  window.scrollTo(0, rolagemAntes);
+}
 function abrirPeca() {
   const h = decodeURIComponent(location.hash.slice(1));
-  if (!h) return;
   const partes = h.split("-");
-  const art = document.getElementById(partes[0]);
-  if (!art) return;
+  const art = h ? document.getElementById(partes[0]) : null;
+  if (!art || !art.classList.contains("peca")) { fecharFicha(); return; }
+  if (artAberto !== art) {
+    if (artAberto) deposito.appendChild(artAberto);
+    else rolagemAntes = window.scrollY;
+    fichaCorpo.appendChild(art);
+    artAberto = art;
+  }
   if (partes[1]) {
     const p = PRODUTOS.find(function (x) { return x.slug === partes[0]; });
     const i = p && p.cores ? p.cores.findIndex(function (c) { return c.slug === partes[1]; }) : -1;
     const b = i >= 0 ? art.querySelectorAll(".cores button")[i] : null;
     if (b) b.click();
   }
-  art.scrollIntoView({ block: "start" });
+  ficha.hidden = false;
+  ficha.scrollTop = 0;
+  document.body.classList.add("ficha-aberta");
+  document.getElementById("ficha-fechar").focus({ preventScroll: true });
 }
+document.getElementById("ficha-fechar").addEventListener("click", function () {
+  if (aberturaInterna) { aberturaInterna = false; history.back(); }
+  else { history.replaceState(null, "", location.pathname + location.search); fecharFicha(); }
+});
+document.addEventListener("keydown", function (e) { if (e.key === "Escape" && artAberto) document.getElementById("ficha-fechar").click(); });
 abrirPeca();
 window.addEventListener("hashchange", abrirPeca);
+
+/* Filtros da vitrine */
+document.querySelectorAll("#filtros button").forEach(function (b) {
+  b.addEventListener("click", function () {
+    document.querySelectorAll("#filtros button").forEach(function (o) { o.setAttribute("aria-pressed", "false"); });
+    b.setAttribute("aria-pressed", "true");
+    const t = b.dataset.tipo;
+    gradeDisp.querySelectorAll(".card").forEach(function (c) { c.hidden = !(t === "todos" || c.dataset.tipo === t); });
+  });
+});
+
+document.querySelectorAll(".categoria[data-filtro]").forEach(function (c) {
+  c.addEventListener("click", function () {
+    const b = document.querySelector('#filtros button[data-tipo="' + c.dataset.filtro + '"]');
+    if (b) b.click();
+  });
+});
+
+/* Carrossel do topo */
+(function () {
+  const slides = document.querySelectorAll(".hero-slide");
+  const pontos = document.getElementById("hero-pontos");
+  let atual = 0, timer = null;
+  const parado = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  function ir(i) {
+    slides[atual].classList.remove("ativo"); pontos.children[atual].removeAttribute("aria-current");
+    atual = (i + slides.length) % slides.length;
+    slides[atual].classList.add("ativo"); pontos.children[atual].setAttribute("aria-current", "true");
+  }
+  slides.forEach(function (_, i) {
+    const b = document.createElement("button");
+    b.type = "button"; b.setAttribute("aria-label", "Mostrar foto " + (i + 1));
+    if (i === 0) b.setAttribute("aria-current", "true");
+    b.addEventListener("click", function () { ir(i); reiniciar(); });
+    pontos.appendChild(b);
+  });
+  function reiniciar() { if (parado) return; clearInterval(timer); timer = setInterval(function () { ir(atual + 1); }, 5000); }
+  reiniciar();
+})();
+
+/* WhatsApp flutuante */
+const zap = document.getElementById("zap-flutuante");
+zap.innerHTML = ICONE;
+zap.href = "https://wa.me/" + WHATSAPP + "?text=" + encodeURIComponent("Oi! Vim pelo catálogo da Adaliah e queria tirar uma dúvida.");
 
 /* Carrega todas as fotos em segundo plano, para a troca ser imediata */
 window.addEventListener("load", function () {
