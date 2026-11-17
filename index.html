@@ -421,6 +421,16 @@
   .hero::before { content: none; }
   .hero-slide img { object-position: center 0%; }
   @media (min-width: 760px) { .topo { margin-bottom: -100px; } .topo-dentro { padding-bottom: 106px; } .hero-slide img { object-position: center 18%; } }
+  /* ===== v8: logo mais alto, névoa longa e clara, sem emenda e longe do rosto ===== */
+  .topo { padding: 0; border: 0; margin-bottom: -100px;
+    background: linear-gradient(180deg, rgba(58,143,180,0) 0, rgba(58,143,180,0) calc(100% - 140px), #4F9DC0 calc(100% - 90px), #8EC4D9 calc(100% - 30px), #A9D3E4 100%), #3A8FB4 url(marca/textura.jpg) center top / cover;
+    -webkit-mask-image: linear-gradient(180deg, #000 0, #000 calc(100% - 100px), rgba(0,0,0,0.972) calc(100% - 90px), rgba(0,0,0,0.896) calc(100% - 80px), rgba(0,0,0,0.784) calc(100% - 70px), rgba(0,0,0,0.648) calc(100% - 60px), rgba(0,0,0,0.500) calc(100% - 50px), rgba(0,0,0,0.352) calc(100% - 40px), rgba(0,0,0,0.216) calc(100% - 30px), rgba(0,0,0,0.104) calc(100% - 20px), rgba(0,0,0,0.028) calc(100% - 10px), transparent 100%);
+            mask-image: linear-gradient(180deg, #000 0, #000 calc(100% - 100px), rgba(0,0,0,0.972) calc(100% - 90px), rgba(0,0,0,0.896) calc(100% - 80px), rgba(0,0,0,0.784) calc(100% - 70px), rgba(0,0,0,0.648) calc(100% - 60px), rgba(0,0,0,0.500) calc(100% - 50px), rgba(0,0,0,0.352) calc(100% - 40px), rgba(0,0,0,0.216) calc(100% - 30px), rgba(0,0,0,0.104) calc(100% - 20px), rgba(0,0,0,0.028) calc(100% - 10px), transparent 100%); }
+  .topo-dentro { padding-top: 4px; padding-bottom: 102px; }
+  .hero-slide picture { display: block; width: 100%; height: 100%; }
+  @media (max-width: 440px) { .filtros { gap: 5px; } .filtros button { padding: 0 10px; font-size: 11px; letter-spacing: 0.08em; } }
+  @media (min-width: 760px) { .topo-dentro { padding-top: 8px; padding-bottom: 102px; }
+    .hero-slide:nth-of-type(1) img { object-position: center 24%; } .hero-slide:nth-of-type(2) img { object-position: center 11%; } .hero-slide:nth-of-type(3) img { object-position: center 26%; } }
 </style>
 </head>
 <body>
@@ -448,7 +458,7 @@
 
 <section class="hero" id="inicio" aria-roledescription="carrossel" aria-label="Coleção Fim de Ano 2026">
   <div class="hero-slide ativo"><img src="fotos/hannah-1.jpg" alt="Vestido Hannah"></div>
-  <div class="hero-slide"><img src="fotos/raabe-bordo-1.jpg" alt="Conjunto Raabe bordô" loading="lazy"></div>
+  <div class="hero-slide"><picture><source media="(max-width: 759px)" srcset="fotos/raabe-bordo-1-topo.jpg"><img src="fotos/raabe-bordo-1.jpg" alt="Conjunto Raabe bordô" loading="lazy"></picture></div>
   <div class="hero-slide"><img src="fotos/raabe-amarelo-1.jpg" alt="Conjunto Raabe amarelo manteiga" loading="lazy"></div>
   <div class="hero-texto">
     <p class="linha">Lançamentos 2026</p>
@@ -482,6 +492,7 @@
       <button type="button" aria-pressed="true" data-tipo="todos">Todas</button>
       <button type="button" aria-pressed="false" data-tipo="vestido">Vestidos</button>
       <button type="button" aria-pressed="false" data-tipo="conjunto">Conjuntos</button>
+      <button type="button" aria-pressed="false" data-tipo="saia">Saias</button>
     </div>
   </section>
   <div class="vitrine" id="grade-disponiveis"></div>
@@ -603,7 +614,11 @@ const PRODUTOS = [
   { nome: "Vestido Maressa", slug: "maressa", secao: "disponivel", preco: "R$ 170,00",
     descricao: "Alegre e cheio de charme. O bordado de abacaxis em branco se destaca no fundo preto, as mangas e a barra têm acabamento ondulado e a renda na saia completa o toque delicado.",
     detalhes: ["Tecido laise", "Com lastex"],
-    fotos: ["fotos/maressa-1.jpg", "fotos/maressa-2.jpg", "fotos/maressa-3.jpg"], tamanhos: ["G"] }
+    fotos: ["fotos/maressa-1.jpg", "fotos/maressa-2.jpg", "fotos/maressa-3.jpg"], tamanhos: ["G"] },
+  { nome: "Saia Betina", slug: "betina", tipo: "saia", secao: "disponivel", preco: "R$ 99,00",
+    descricao: "A saia coringa que combina com tudo. O cós alto marca a cintura, as pregas fundas na frente dão volume na medida e o comprimento midi cai em um godê lindo a cada passo.",
+    detalhes: ["Tecido New Look", "Cós alto", "Pregas frontais"],
+    fotos: ["fotos/betina-1.jpg"], tamanhos: ["P", "M", "G"] }
 ];
 
 /* Enquanto os valores reais não chegam, o site mostra as opções sem preço. Trocar para true quando a tabela tiver valores reais. */
@@ -664,7 +679,7 @@ const ICONE = '<svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><
 
 const SITE = "https://byadaliah.github.io/";
 function linkPedido(p, tamanho, cor) {
-  let msg = "Oi! Vi o catálogo da Adaliah e quero o *" + p.nome + "*";
+  let msg = "Oi! Vi o catálogo da Adaliah e quero " + (p.tipo === "saia" ? "a" : "o") + " *" + p.nome + "*";
   if (p.preco) msg += " (" + p.preco + ")";
   if (cor) msg += ", na cor " + cor.nome.toLowerCase();
   if (tamanho) msg += ", tamanho " + tamanho;
@@ -698,7 +713,7 @@ PRODUTOS.forEach(function (p) {
       cores.map(function (c, i) { return '<button type="button" aria-pressed="' + (i === 0) + '"><span class="amostra" style="background:' + c.amostra + '"></span>' + c.nome + '</button>'; }).join("") + '</div></div>' : '') +
     '<div class="tamanhos"></div>' +
     (disponivel
-      ? '<a class="pedir" target="_blank" rel="noopener" href="#">' + ICONE + 'Quero este ' + tipo + '</a>'
+      ? '<a class="pedir" target="_blank" rel="noopener" href="#">' + ICONE + (tipo === 'saia' ? 'Quero esta saia' : 'Quero este ' + tipo) + '</a>'
       : '<span class="pedir espera">Disponível nesta semana</span>');
 
   const quadro = art.querySelector(".quadro");
