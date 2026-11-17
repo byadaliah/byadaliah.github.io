@@ -550,8 +550,6 @@
       </div>
       <label for="rec-texto">Seu recado</label>
       <textarea id="rec-texto" rows="4" placeholder="Escreva aqui o seu recado" required></textarea>
-      <label class="rec-foto" for="rec-foto"><input id="rec-foto" type="checkbox"> <span>Quero enviar uma foto usando a peça</span></label>
-      <p class="rec-foto-dica" id="rec-foto-dica" hidden>Quando o WhatsApp abrir, toque no clipe 📎 ou na câmera e anexe sua foto antes de enviar.</p>
       <p class="aviso-form" id="rec-aviso" role="status"></p>
       <button type="submit">Enviar recado</button>
     </form>
@@ -881,7 +879,6 @@ document.querySelectorAll(".categoria[data-filtro]").forEach(function (c) {
     }).join("");
   }
   const form = document.getElementById("recado-form");
-  document.getElementById("rec-foto").addEventListener("change", function (e) { document.getElementById("rec-foto-dica").hidden = !e.target.checked; });
   const aviso = document.getElementById("rec-aviso");
   form.addEventListener("submit", function (e) {
     e.preventDefault();
@@ -889,9 +886,8 @@ document.querySelectorAll(".categoria[data-filtro]").forEach(function (c) {
     const cidade = document.getElementById("rec-cidade").value.trim();
     const texto = document.getElementById("rec-texto").value.trim();
     if (!nome || !texto) { aviso.textContent = "Escreva seu nome e o recado para enviar."; return; }
-    aviso.textContent = document.getElementById("rec-foto").checked ? "Abrindo o WhatsApp. Lembre de anexar a sua foto antes de enviar." : "Abrindo o WhatsApp para você enviar o recado.";
-    const comFoto = document.getElementById("rec-foto").checked;
-    const msg = "Recado para o site da Adaliah:\n\n" + texto + "\n\n" + nome + (cidade ? ", " + cidade : "") + (comFoto ? "\n\n📸 Vou mandar uma foto usando a peça!" : "");
+    aviso.textContent = "Abrindo o WhatsApp para você enviar o recado.";
+    const msg = "Recado para o site da Adaliah:\n\n" + texto + "\n\n" + nome + (cidade ? ", " + cidade : "");
     window.open("https://wa.me/" + WHATSAPP + "?text=" + encodeURIComponent(msg), "_blank", "noopener");
   });
 })();
