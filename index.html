@@ -415,9 +415,15 @@
 
   /* ===== Transição suave entre topo e foto (v6) ===== */
   .topo { background: linear-gradient(180deg, rgba(59,140,176,0) 35%, rgba(59,140,176,.85) 85%, #3B8CB0 100%), #3A8FB4 url(marca/textura.jpg) center / cover; }
-  .hero::before { content: ""; position: absolute; left: 0; right: 0; top: 0; height: 140px; z-index: 1; pointer-events: none;
-    background: linear-gradient(180deg, #3B8CB0 0%, rgba(59,140,176,.75) 22%, rgba(59,140,176,.35) 52%, rgba(59,140,176,.1) 78%, rgba(59,140,176,0) 100%); }
-  @media (min-width: 760px) { .hero::before { height: 120px; } }
+  .hero::before { content: ""; position: absolute; left: 0; right: 0; top: 0; height: 46px; z-index: 1; pointer-events: none;
+    background: linear-gradient(180deg, #3B8CB0 0%, rgba(59,140,176,.55) 30%, rgba(59,140,176,.18) 65%, rgba(59,140,176,0) 100%); }
+  .hero-slide img { object-position: center 4%; }
+  @media (min-width: 760px) { .hero::before { height: 40px; } .hero-slide img { object-position: center 22%; } }
+  .recado-form .rec-foto { position: static; width: auto; height: auto; overflow: visible; clip: auto; display: flex; align-items: center; gap: 10px; font-size: 15px; color: var(--anil); cursor: pointer; min-height: 44px; }
+  .rec-foto input { position: static; width: 20px; height: 20px; accent-color: var(--azul); flex: none; padding: 0; }
+  .rec-foto-dica { font-size: 14px; color: var(--anil-suave); background: var(--nuvem); border-radius: 12px; padding: 10px 14px; margin-top: -4px; }
+  .rec-foto-dica[hidden] { display: none; }
+  .recado-img { width: 100%; aspect-ratio: 4 / 5; object-fit: cover; border-radius: 999px 999px 4px 4px; margin-bottom: 14px; }
 </style>
 </head>
 <body>
@@ -536,6 +542,8 @@
       </div>
       <label for="rec-texto">Seu recado</label>
       <textarea id="rec-texto" rows="4" placeholder="Escreva aqui o seu recado" required></textarea>
+      <label class="rec-foto" for="rec-foto"><input id="rec-foto" type="checkbox"> <span>Quero enviar uma foto usando a peça</span></label>
+      <p class="rec-foto-dica" id="rec-foto-dica" hidden>Quando o WhatsApp abrir, toque no clipe 📎 ou na câmera e anexe sua foto antes de enviar.</p>
       <p class="aviso-form" id="rec-aviso" role="status"></p>
       <button type="submit">Enviar recado</button>
     </form>
@@ -630,7 +638,7 @@ Object.keys(TABELA).forEach(function (uf) {
     { servico: "SEDEX", transportadora: "Correios", valor: t[2], prazo: "até " + t[3] + " dias úteis" } ] };
 });
 
-/* Recados aprovados pela Nathaly. Formato: { nome: "Maria", cidade: "São Paulo", texto: "..." } */
+/* Recados aprovados pela Nathaly. Formato: { nome: "Maria", cidade: "São Paulo", texto: "...", foto: "recados/maria.jpg" (opcional) } */
 const RECADOS = [];
 /* ========================================== */
 
@@ -857,10 +865,11 @@ document.querySelectorAll(".categoria[data-filtro]").forEach(function (c) {
     lista.innerHTML = '<p class="recados-vazio">Ainda não temos recados por aqui. Seja a primeira a deixar o seu!</p>';
   } else {
     lista.innerHTML = RECADOS.map(function (r) {
-      return '<figure class="recado"><blockquote>' + r.texto + '</blockquote><figcaption>' + r.nome + (r.cidade ? ' · ' + r.cidade : '') + '</figcaption></figure>';
+      return '<figure class="recado">' + (r.foto ? '<img class="recado-img" src="' + r.foto + '" alt="Foto de ' + r.nome + '" loading="lazy">' : '') + '<blockquote>' + r.texto + '</blockquote><figcaption>' + r.nome + (r.cidade ? ' · ' + r.cidade : '') + '</figcaption></figure>';
     }).join("");
   }
   const form = document.getElementById("recado-form");
+  document.getElementById("rec-foto").addEventListener("change", function (e) { document.getElementById("rec-foto-dica").hidden = !e.target.checked; });
   const aviso = document.getElementById("rec-aviso");
   form.addEventListener("submit", function (e) {
     e.preventDefault();
@@ -868,8 +877,9 @@ document.querySelectorAll(".categoria[data-filtro]").forEach(function (c) {
     const cidade = document.getElementById("rec-cidade").value.trim();
     const texto = document.getElementById("rec-texto").value.trim();
     if (!nome || !texto) { aviso.textContent = "Escreva seu nome e o recado para enviar."; return; }
-    aviso.textContent = "Abrindo o WhatsApp para você enviar o recado.";
-    const msg = "Recado para o site da Adaliah:\n\n" + texto + "\n\n" + nome + (cidade ? ", " + cidade : "");
+    aviso.textContent = document.getElementById("rec-foto").checked ? "Abrindo o WhatsApp. Lembre de anexar a sua foto antes de enviar." : "Abrindo o WhatsApp para você enviar o recado.";
+    const comFoto = document.getElementById("rec-foto").checked;
+    const msg = "Recado para o site da Adaliah:\n\n" + texto + "\n\n" + nome + (cidade ? ", " + cidade : "") + (comFoto ? "\n\n📸 Vou mandar uma foto usando a peça!" : "");
     window.open("https://wa.me/" + WHATSAPP + "?text=" + encodeURIComponent(msg), "_blank", "noopener");
   });
 })();
