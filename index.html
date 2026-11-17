@@ -446,6 +446,39 @@
   .hero.mostra::after { opacity: 1; }
   .hero-texto:focus-within { opacity: 1; transform: none; pointer-events: auto; }
   .hero-pontos { z-index: 3; }
+  /* ===== v11: mural de avaliações com foto ===== */
+  .recados-lista { display: block; columns: 2; column-gap: 14px; }
+  .recados-lista .recados-vazio { column-span: all; }
+  @media (min-width: 760px) { .recados-lista { columns: 4; } }
+  .recado { padding: 0; overflow: hidden; border-radius: 999px 999px 4px 4px; display: grid; break-inside: avoid; margin: 0 0 14px; }
+  .recado-img { width: 100%; aspect-ratio: 3 / 4; object-fit: cover; display: block; background: var(--ceu); }
+  .recado-corpo { padding: 14px 12px 16px; display: grid; gap: 6px; }
+  .recado:not(.com-foto) .recado-corpo { padding-top: 34px; }
+  .recado-nota { color: var(--azul); letter-spacing: 2px; font-size: 13px; }
+  .recado-nota span { color: var(--bruma); }
+  .recado blockquote { font-size: 16px; }
+  .recado figcaption { margin-top: 2px; font-size: 10.5px; display: grid; gap: 2px; }
+  .recado figcaption small { font-size: 10px; letter-spacing: .12em; color: var(--anil-suave); text-transform: none; font-style: italic; }
+  .recado-form select { font: inherit; font-size: 16px; color: var(--anil); background: var(--nuvem); border: 1px solid var(--bruma); border-radius: 2px; min-height: 48px; padding: 0 12px; }
+  .estrelas { border: 0; margin: 0; padding: 0; display: flex; flex-direction: row-reverse; justify-content: flex-end; gap: 4px; }
+  .estrelas legend { float: left; margin-right: 10px; font-size: 13px; color: var(--anil-suave); line-height: 40px; }
+  .estrelas input { position: absolute; opacity: 0; width: 1px; height: 1px; }
+  .recado-form .estrelas label { position: static; width: auto; height: auto; clip: auto; overflow: visible; font-size: 30px; line-height: 40px; color: var(--bruma); cursor: pointer; padding: 0 2px; }
+  .estrelas input:checked ~ label, .estrelas label:hover, .estrelas label:hover ~ label { color: var(--azul); }
+  .estrelas input:focus-visible + label { outline: 2px solid var(--azul); outline-offset: 2px; }
+  .foto-input { position: absolute; opacity: 0; width: 1px; height: 1px; }
+  .recado-form .foto-botao { position: static; width: auto; height: auto; clip: auto; overflow: visible; display: inline-flex; align-items: center; justify-content: center; gap: 8px; min-height: 120px; width: 100%; border: 1px dashed var(--azul); border-radius: 999px 999px 4px 4px; background: rgba(255,255,255,.7); color: var(--azul); font-size: 13px; letter-spacing: .14em; text-transform: uppercase; cursor: pointer; }
+  .foto-botao[hidden] { display: none !important; }
+  .foto-botao span { font-size: 22px; }
+  .foto-input:focus-visible + .foto-botao { outline: 2px solid var(--azul); outline-offset: 2px; }
+  .foto-previa { position: relative; margin: 0; width: 150px; }
+  .foto-previa img { width: 150px; aspect-ratio: 3 / 4; object-fit: cover; border-radius: 999px 999px 4px 4px; display: block; }
+  .foto-previa button { position: absolute; top: 6px; right: -6px; width: 32px; height: 32px; border-radius: 50%; border: 0; background: var(--anil); color: #fff; font-size: 20px; line-height: 1; cursor: pointer; min-height: 0; padding: 0; letter-spacing: 0; }
+  .recado-form .rec-ok { position: static; width: auto; height: auto; clip: auto; overflow: visible; display: flex; gap: 10px; align-items: center; font-size: 14px; color: var(--anil-suave); }
+  .rec-ok[hidden] { display: none !important; }
+  .rec-ok input { width: 20px; height: 20px; accent-color: var(--azul); }
+  .pote { position: absolute; left: -9999px; width: 1px; height: 1px; opacity: 0; }
+  .recado-form button[disabled] { opacity: .6; cursor: wait; }
 </style>
 </head>
 <body>
@@ -550,23 +583,40 @@
 
   <section class="recados" id="recados" aria-labelledby="recados-titulo">
     <div class="secao-titulo">
-      <h2 id="recados-titulo">Recados</h2>
-      <p>O que nossas clientes dizem</p>
+      <h2 id="recados-titulo">Avaliações</h2>
+      <p>Fotos e recados das nossas clientes</p>
     </div>
-    <div class="recados-lista" id="recados-lista"></div>
+    <div class="recados-lista" id="recados-lista"><p class="recados-vazio">Carregando avaliações…</p></div>
     <form class="recado-form" id="recado-form" novalidate>
-      <h3>Deixe seu recado</h3>
-      <p class="ajuda">Comprou, provou ou só se apaixonou? Conta pra gente. Seu recado chega pra Nathaly e aparece aqui no site.</p>
+      <h3>Avalie a sua Adaliah</h3>
+      <p class="ajuda">Comprou e amou? Conta como ficou e poste uma foto usando a peça. Sua avaliação aparece aqui no mural depois que a Nathaly der uma olhadinha.</p>
       <div class="campos">
         <label for="rec-nome">Seu nome</label>
-        <input id="rec-nome" type="text" autocomplete="given-name" placeholder="Seu nome" required>
+        <input id="rec-nome" type="text" autocomplete="given-name" placeholder="Seu nome" maxlength="60" required>
         <label for="rec-cidade">Sua cidade</label>
-        <input id="rec-cidade" type="text" autocomplete="address-level2" placeholder="Sua cidade (opcional)">
+        <input id="rec-cidade" type="text" autocomplete="address-level2" placeholder="Sua cidade (opcional)" maxlength="60">
       </div>
-      <label for="rec-texto">Seu recado</label>
-      <textarea id="rec-texto" rows="4" placeholder="Escreva aqui o seu recado" required></textarea>
+      <label for="rec-peca">Qual peça?</label>
+      <select id="rec-peca"><option value="">Qual peça você comprou? (opcional)</option></select>
+      <fieldset class="estrelas" id="rec-nota">
+        <legend>Sua nota</legend>
+        <input type="radio" name="nota" id="nota-5" value="5" checked><label for="nota-5" title="5 estrelas">★</label>
+        <input type="radio" name="nota" id="nota-4" value="4"><label for="nota-4" title="4 estrelas">★</label>
+        <input type="radio" name="nota" id="nota-3" value="3"><label for="nota-3" title="3 estrelas">★</label>
+        <input type="radio" name="nota" id="nota-2" value="2"><label for="nota-2" title="2 estrelas">★</label>
+        <input type="radio" name="nota" id="nota-1" value="1"><label for="nota-1" title="1 estrela">★</label>
+      </fieldset>
+      <label for="rec-texto">Sua avaliação</label>
+      <textarea id="rec-texto" rows="4" placeholder="Como ficou a peça em você?" maxlength="600" required></textarea>
+      <div class="foto-campo">
+        <input id="rec-foto" type="file" accept="image/*" class="foto-input">
+        <label for="rec-foto" class="foto-botao" id="foto-botao"><span aria-hidden="true">＋</span> Adicionar foto</label>
+        <figure class="foto-previa" id="foto-previa" hidden><img alt="Prévia da sua foto"><button type="button" id="foto-tirar" aria-label="Tirar foto">×</button></figure>
+      </div>
+      <label class="rec-ok" id="rec-ok-campo" hidden><input type="checkbox" id="rec-ok"> <span>Autorizo a Adaliah a mostrar esta foto no site</span></label>
+      <input type="text" id="rec-site" class="pote" tabindex="-1" autocomplete="off" aria-hidden="true">
       <p class="aviso-form" id="rec-aviso" role="status"></p>
-      <button type="submit">Enviar recado</button>
+      <button type="submit" id="rec-enviar">Enviar avaliação</button>
     </form>
   </section>
 
@@ -663,8 +713,6 @@ Object.keys(TABELA).forEach(function (uf) {
     { servico: "SEDEX", transportadora: "Correios", valor: t[2], prazo: "até " + t[3] + " dias úteis" } ] };
 });
 
-/* Recados aprovados pela Nathaly. Formato: { nome: "Maria", cidade: "São Paulo", texto: "...", foto: "recados/maria.jpg" (opcional) } */
-const RECADOS = [];
 /* ========================================== */
 
 /* Descobre a região pelos 5 primeiros dígitos do CEP */
@@ -883,27 +931,96 @@ document.querySelectorAll(".categoria[data-filtro]").forEach(function (c) {
   });
 });
 
-/* Recados */
+/* Avaliações com foto (guardadas no Supabase; aparecem depois da aprovação da Nathaly) */
+const SUPA = { url: "https://kctrxihxawzftqnmukdc.supabase.co", chave: "sb_publishable_oLa_Lvs8hNbcRuxP6Q2Auw_cbCH3H3Q" };
 (function () {
   const lista = document.getElementById("recados-lista");
-  if (!RECADOS.length) {
-    lista.innerHTML = '<p class="recados-vazio">Ainda não temos recados por aqui. Seja a primeira a deixar o seu!</p>';
-  } else {
-    lista.innerHTML = RECADOS.map(function (r) {
-      return '<figure class="recado">' + (r.foto ? '<img class="recado-img" src="' + r.foto + '" alt="Foto de ' + r.nome + '" loading="lazy">' : '') + '<blockquote>' + r.texto + '</blockquote><figcaption>' + r.nome + (r.cidade ? ' · ' + r.cidade : '') + '</figcaption></figure>';
-    }).join("");
-  }
   const form = document.getElementById("recado-form");
   const aviso = document.getElementById("rec-aviso");
+  const enviar = document.getElementById("rec-enviar");
+  const inFoto = document.getElementById("rec-foto");
+  const previa = document.getElementById("foto-previa");
+  const botaoFoto = document.getElementById("foto-botao");
+  const okCampo = document.getElementById("rec-ok-campo");
+  const sel = document.getElementById("rec-peca");
+  const ativo = !!(SUPA.url && SUPA.chave);
+  const cab = function (extra) { const h = Object.assign({ apikey: SUPA.chave }, extra || {}); if (!/^sb_/.test(SUPA.chave)) h.Authorization = "Bearer " + SUPA.chave; return h; };
+  const esc = function (t) { return String(t || "").replace(/[&<>"']/g, function (c) { return { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]; }); };
+  const nomesPecas = [];
+  PRODUTOS.forEach(function (p) { const n = p.nome.replace(/ (bordô|amarelo.*|preto|vermelho|rosé)$/i, ""); if (nomesPecas.indexOf(n) < 0) nomesPecas.push(n); });
+  nomesPecas.forEach(function (n) { const o = document.createElement("option"); o.value = n; o.textContent = n; sel.appendChild(o); });
+  sel.insertAdjacentHTML("beforeend", '<option value="Outra peça">Outra peça</option>');
+
+  function cartao(r) {
+    const foto = r.foto ? '<img class="recado-img" src="' + SUPA.url + "/storage/v1/object/public/recados/" + esc(r.foto) + '" alt="Foto de ' + esc(r.nome) + ' usando ' + esc(r.peca || "a peça") + '" loading="lazy">' : "";
+    const nota = Math.max(1, Math.min(5, r.nota || 5));
+    return '<figure class="recado' + (r.foto ? " com-foto" : "") + '">' + foto +
+      '<div class="recado-corpo"><p class="recado-nota" aria-label="' + nota + ' de 5 estrelas">' + "★".repeat(nota) + '<span>' + "★".repeat(5 - nota) + "</span></p>" +
+      "<blockquote>" + esc(r.texto) + "</blockquote><figcaption>" + esc(r.nome) + (r.cidade ? " · " + esc(r.cidade) : "") +
+      (r.peca ? '<small>' + esc(r.peca) + "</small>" : "") + "</figcaption></div></figure>";
+  }
+  function carregar() {
+    if (!ativo) { lista.innerHTML = '<p class="recados-vazio">Ainda não temos avaliações por aqui. Seja a primeira!</p>'; return; }
+    fetch(SUPA.url + "/rest/v1/recados?select=nome,cidade,texto,nota,peca,foto&aprovado=eq.true&order=criado_em.desc&limit=60", { headers: cab() })
+      .then(function (r) { if (!r.ok) throw 0; return r.json(); })
+      .then(function (d) { lista.innerHTML = d.length ? d.map(cartao).join("") : '<p class="recados-vazio">Ainda não temos avaliações por aqui. Seja a primeira!</p>'; })
+      .catch(function () { lista.innerHTML = '<p class="recados-vazio">Não consegui carregar as avaliações agora.</p>'; });
+  }
+  carregar();
+
+  /* foto: reduz no próprio celular para subir rápido */
+  let fotoBlob = null;
+  function reduzir(arq) {
+    return (window.createImageBitmap ? createImageBitmap(arq, { imageOrientation: "from-image" }) : Promise.reject())
+      .catch(function () { return new Promise(function (ok, erro) { const i = new Image(); i.onload = function () { ok(i); }; i.onerror = erro; i.src = URL.createObjectURL(arq); }); })
+      .then(function (img) {
+        const max = 1400, w = img.width, h = img.height, k = Math.min(1, max / Math.max(w, h));
+        const c = document.createElement("canvas"); c.width = Math.round(w * k); c.height = Math.round(h * k);
+        c.getContext("2d").drawImage(img, 0, 0, c.width, c.height);
+        return new Promise(function (ok) { c.toBlob(ok, "image/jpeg", 0.84); });
+      });
+  }
+  inFoto.addEventListener("change", function () {
+    const arq = inFoto.files && inFoto.files[0];
+    if (!arq) return;
+    aviso.textContent = "Preparando a foto…";
+    reduzir(arq).then(function (b) {
+      fotoBlob = b; previa.querySelector("img").src = URL.createObjectURL(b);
+      previa.hidden = false; botaoFoto.hidden = true; okCampo.hidden = false; aviso.textContent = "";
+    }).catch(function () { aviso.textContent = "Não consegui abrir essa foto. Tente outra, em JPG ou PNG."; inFoto.value = ""; });
+  });
+  document.getElementById("foto-tirar").addEventListener("click", function () {
+    fotoBlob = null; inFoto.value = ""; previa.hidden = true; botaoFoto.hidden = false; okCampo.hidden = true; document.getElementById("rec-ok").checked = false;
+  });
+
+  function uuid() { return (crypto.randomUUID ? crypto.randomUUID() : "xxxxxxxx-xxxx-4xxx-8xxx-xxxxxxxxxxxx".replace(/x/g, function () { return (Math.random() * 16 | 0).toString(16); })); }
   form.addEventListener("submit", function (e) {
     e.preventDefault();
     const nome = document.getElementById("rec-nome").value.trim();
     const cidade = document.getElementById("rec-cidade").value.trim();
     const texto = document.getElementById("rec-texto").value.trim();
-    if (!nome || !texto) { aviso.textContent = "Escreva seu nome e o recado para enviar."; return; }
-    aviso.textContent = "Abrindo o WhatsApp para você enviar o recado.";
-    const msg = "Recado para o site da Adaliah:\n\n" + texto + "\n\n" + nome + (cidade ? ", " + cidade : "");
-    window.open("https://wa.me/" + WHATSAPP + "?text=" + encodeURIComponent(msg), "_blank", "noopener");
+    const nota = +(form.querySelector('input[name="nota"]:checked') || { value: 5 }).value;
+    if (document.getElementById("rec-site").value) return;
+    if (!nome || !texto) { aviso.textContent = "Escreva seu nome e a sua avaliação para enviar."; return; }
+    if (fotoBlob && !document.getElementById("rec-ok").checked) { aviso.textContent = "Marque a autorização para mostrarmos a sua foto, ou tire a foto."; return; }
+    if (!ativo) {
+      const msg = "Avaliação para o site da Adaliah:\n\n" + "★".repeat(nota) + "\n" + texto + "\n\n" + nome + (cidade ? ", " + cidade : "");
+      window.open("https://wa.me/" + WHATSAPP + "?text=" + encodeURIComponent(msg), "_blank", "noopener"); return;
+    }
+    enviar.disabled = true; aviso.textContent = fotoBlob ? "Enviando a sua foto…" : "Enviando…";
+    const nomeFoto = fotoBlob ? uuid() + ".jpg" : null;
+    const subir = fotoBlob ? fetch(SUPA.url + "/storage/v1/object/recados/" + nomeFoto, { method: "POST", headers: cab({ "Content-Type": "image/jpeg", "x-upsert": "false" }), body: fotoBlob })
+      .then(function (r) { if (!r.ok) throw new Error("foto"); }) : Promise.resolve();
+    subir.then(function () {
+      return fetch(SUPA.url + "/rest/v1/recados", { method: "POST", headers: cab({ "Content-Type": "application/json", Prefer: "return=minimal" }),
+        body: JSON.stringify({ nome: nome, cidade: cidade || null, texto: texto, nota: nota, peca: sel.value || null, foto: nomeFoto }) });
+    }).then(function (r) {
+      if (!r.ok) throw new Error("texto");
+      form.reset(); document.getElementById("foto-tirar").click();
+      aviso.textContent = "Obrigada! 💙 Sua avaliação foi enviada e aparece aqui no mural assim que a Nathaly aprovar.";
+    }).catch(function () {
+      aviso.textContent = "Ops, não consegui enviar agora. Confira a internet e tente de novo.";
+    }).finally(function () { enviar.disabled = false; });
   });
 })();
 

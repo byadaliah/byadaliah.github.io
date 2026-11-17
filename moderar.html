@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>Avaliações · Adaliah</title>
+<link rel="icon" href="marca/favicon.png">
+<style>
+  :root { --azul: #2E86AD; --anil: #164A63; --suave: #4F7487; --bruma: #D3E7EF; --ceu: #EEF6F9; }
+  * { box-sizing: border-box; }
+  body { margin: 0; font-family: system-ui, -apple-system, "Segoe UI", sans-serif; color: var(--anil); background: var(--ceu); }
+  header { background: #1D6A8D url(marca/textura.jpg) center / cover; color: #fff; padding: 18px 16px; text-align: center; }
+  header img { height: 56px; }
+  header p { margin: 6px 0 0; font-size: 13px; letter-spacing: .14em; text-transform: uppercase; }
+  main { max-width: 720px; margin: 0 auto; padding: 16px; }
+  .entrar { display: grid; gap: 10px; background: #fff; padding: 20px; border-radius: 6px; }
+  input { font: inherit; font-size: 16px; padding: 12px; border: 1px solid var(--bruma); border-radius: 4px; }
+  button { font: inherit; font-size: 14px; font-weight: 600; border: 0; border-radius: 999px; padding: 12px 18px; min-height: 44px; cursor: pointer; background: var(--azul); color: #fff; }
+  button.sec { background: #fff; color: var(--anil); border: 1px solid var(--bruma); }
+  button.perigo { background: #fff; color: #A33; border: 1px solid #E8C4C4; }
+  .abas { display: flex; gap: 8px; margin: 4px 0 14px; }
+  .abas button { flex: 1; background: #fff; color: var(--anil); border: 1px solid var(--bruma); }
+  .abas button[aria-pressed="true"] { background: var(--anil); color: #fff; border-color: var(--anil); }
+  .item { background: #fff; border-radius: 6px; padding: 14px; margin-bottom: 12px; display: grid; grid-template-columns: 110px 1fr; gap: 14px; }
+  .item.sem-foto { grid-template-columns: 1fr; }
+  .item img { width: 110px; aspect-ratio: 3/4; object-fit: cover; border-radius: 55px 55px 4px 4px; cursor: zoom-in; }
+  .nota { color: var(--azul); letter-spacing: 2px; }
+  .texto { font-size: 16px; margin: 6px 0; white-space: pre-wrap; }
+  .quem { font-size: 13px; color: var(--suave); }
+  .acoes { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 10px; }
+  .vazio, .aviso { text-align: center; color: var(--suave); padding: 24px 0; }
+  .grande { position: fixed; inset: 0; background: rgba(0,0,0,.85); display: grid; place-items: center; padding: 16px; }
+  .grande img { max-width: 100%; max-height: 100%; }
+</style>
+</head>
+<body>
+<header><img src="marca/logo-branco.png" alt="Adaliah"><p>Aprovação de avaliações</p></header>
+<main>
+  <form class="entrar" id="entrar" hidden>
+    <label for="chave">Chave de aprovação</label>
+    <input id="chave" type="text" autocomplete="off" autocapitalize="off" spellcheck="false">
+    <button type="submit">Entrar</button>
+  </form>
+  <div id="painel" hidden>
+    <div class="abas">
+      <button type="button" data-aba="pendentes" aria-pressed="true">Esperando <span id="n-pend"></span></button>
+      <button type="button" data-aba="aprovadas" aria-pressed="false">No site <span id="n-apr"></span></button>
+    </div>
+    <div id="lista"></div>
+  </div>
+  <p class="aviso" id="aviso" role="status"></p>
+</main>
+<script>
+const SUPA = { url: "https://kctrxihxawzftqnmukdc.supabase.co", chave: "sb_publishable_oLa_Lvs8hNbcRuxP6Q2Auw_cbCH3H3Q" };
+const cab = function (extra) { const h = Object.assign({ apikey: SUPA.chave, "Content-Type": "application/json" }, extra || {}); if (!/^sb_/.test(SUPA.chave)) h.Authorization = "Bearer " + SUPA.chave; return h; };
+const esc = function (t) { return String(t || "").replace(/[&<>"']/g, function (c) { return { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]; }); };
+const aviso = document.getElementById("aviso");
+let chave = "", itens = [], aba = "pendentes";
+try { const m = location.hash.match(/chave=([^&]+)/); if (m) { localStorage.setItem("adaliah-chave", decodeURIComponent(m[1])); history.replaceState(null, "", location.pathname); } chave = localStorage.getItem("adaliah-chave") || ""; } catch (e) {}
+
+function rpc(nome, corpo) {
+  return fetch(SUPA.url + "/rest/v1/rpc/" + nome, { method: "POST", headers: cab(), body: JSON.stringify(Object.assign({ chave: chave }, corpo || {})) })
+    .then(function (r) { if (!r.ok) throw new Error(r.status); return r.status === 204 ? null : r.json(); });
+}
+function carregar() {
+  aviso.textContent = "Carregando…";
+  rpc("moderar_listar").then(function (d) {
+    itens = d; aviso.textContent = "";
+    document.getElementById("entrar").hidden = true; document.getElementById("painel").hidden = false;
+    desenhar();
+  }).catch(function () {
+    try { localStorage.removeItem("adaliah-chave"); } catch (e) {}
+    document.getElementById("painel").hidden = true; document.getElementById("entrar").hidden = false;
+    aviso.textContent = chave ? "Chave não reconhecida. Confira e tente de novo." : "";
+  });
+}
+function desenhar() {
+  const pend = itens.filter(function (i) { return !i.aprovado; }), apr = itens.filter(function (i) { return i.aprovado; });
+  document.getElementById("n-pend").textContent = "(" + pend.length + ")";
+  document.getElementById("n-apr").textContent = "(" + apr.length + ")";
+  const mostrar = aba === "pendentes" ? pend : apr;
+  document.getElementById("lista").innerHTML = mostrar.length ? mostrar.map(function (i) {
+    const foto = i.foto ? '<img src="' + SUPA.url + "/storage/v1/object/public/recados/" + esc(i.foto) + '" alt="Foto enviada por ' + esc(i.nome) + '">' : "";
+    const data = new Date(i.criado_em).toLocaleString("pt-BR", { day: "2-digit", month: "2-digit", hour: "2-digit", minute: "2-digit" });
+    return '<article class="item' + (i.foto ? "" : " sem-foto") + '">' + foto + '<div><div class="nota">' + "★".repeat(i.nota) + '</div><p class="texto">' + esc(i.texto) + '</p><div class="quem">' + esc(i.nome) + (i.cidade ? " · " + esc(i.cidade) : "") + (i.peca ? " · " + esc(i.peca) : "") + " · " + data + '</div><div class="acoes">' +
+      (i.aprovado ? '<button class="sec" data-acao="ocultar" data-id="' + i.id + '">Tirar do site</button>' : '<button data-acao="aprovar" data-id="' + i.id + '">Aprovar</button>') +
+      '<button class="perigo" data-acao="apagar" data-id="' + i.id + '">Apagar</button></div></div></article>';
+  }).join("") : '<p class="vazio">' + (aba === "pendentes" ? "Nenhuma avaliação esperando aprovação." : "Nenhuma avaliação no site ainda.") + "</p>";
+}
+document.getElementById("entrar").addEventListener("submit", function (e) {
+  e.preventDefault(); chave = document.getElementById("chave").value.trim();
+  try { localStorage.setItem("adaliah-chave", chave); } catch (er) {}
+  carregar();
+});
+document.querySelectorAll(".abas button").forEach(function (b) {
+  b.addEventListener("click", function () { aba = b.dataset.aba; document.querySelectorAll(".abas button").forEach(function (x) { x.setAttribute("aria-pressed", x === b); }); desenhar(); });
+});
+document.getElementById("lista").addEventListener("click", function (e) {
+  const img = e.target.closest("img");
+  if (img) { const g = document.createElement("div"); g.className = "grande"; g.innerHTML = '<img src="' + img.src + '" alt="">'; g.onclick = function () { g.remove(); }; document.body.appendChild(g); return; }
+  const b = e.target.closest("button[data-acao]"); if (!b) return;
+  const id = b.dataset.id, acao = b.dataset.acao;
+  if (acao === "apagar" && !window.confirm("Apagar esta avaliação de vez?")) return;
+  b.disabled = true;
+  const p = acao === "apagar" ? rpc("moderar_apagar", { rid: id }) : rpc("moderar_aprovar", { rid: id, sim: acao === "aprovar" });
+  p.then(function () {
+    if (acao === "apagar") itens = itens.filter(function (i) { return i.id !== id; });
+    else itens.forEach(function (i) { if (i.id === id) i.aprovado = acao === "aprovar"; });
+    aviso.textContent = acao === "aprovar" ? "Aprovada! Já aparece no site." : acao === "ocultar" ? "Tirada do site." : "Apagada.";
+    desenhar();
+  }).catch(function () { aviso.textContent = "Não deu certo. Tente de novo."; b.disabled = false; });
+});
+if (!SUPA.url) { aviso.textContent = "O mural ainda não foi ligado."; } else if (chave) { carregar(); } else { document.getElementById("entrar").hidden = false; }
+</script>
+</body>
+</html>
