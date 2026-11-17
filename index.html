@@ -397,8 +397,8 @@
 
   <section class="mais" id="pecas" aria-labelledby="mais-titulo">
     <div class="secao-titulo">
-      <h2 id="mais-titulo">Peças disponíveis</h2>
-      <p>Prontas para enviar</p>
+      <h2 id="mais-titulo">Todas as peças</h2>
+      <p>Escolha por categoria</p>
     </div>
     <div class="filtros" id="filtros">
       <button type="button" aria-pressed="true" data-tipo="todos">Todas</button>
@@ -677,7 +677,15 @@ PRODUTOS.forEach(function (p) {
         p.cores.map(function (c) { return '<i style="background:' + c.amostra + '" title="' + c.nome + '"></i>'; }).join("") + '</span>' : '') +
       '<span class="espaco"></span><span class="card-acao">Ver peça</span></div>';
   card.addEventListener("click", function () { aberturaInterna = true; });
-  (p.secao === "disponivel" ? gradeDisp : grade).appendChild(card);
+  if (p.secao === "disponivel") {
+    gradeDisp.appendChild(card);
+  } else {
+    /* lançamentos aparecem em destaque e também nas categorias */
+    grade.appendChild(card);
+    const copia = card.cloneNode(true);
+    copia.addEventListener("click", function () { aberturaInterna = true; });
+    gradeDisp.appendChild(copia);
+  }
 });
 if (!gradeDisp.children.length) { gradeDisp.hidden = true; document.querySelector(".mais").hidden = true; }
 
