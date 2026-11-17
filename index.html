@@ -493,6 +493,13 @@
     .hero-arco { padding: clamp(18px, 2vw, 34px) clamp(18px, 1.8vw, 30px) 4px; }
     .hero-assinatura { font-size: clamp(14px, 1.1vw, 18px) !important; }
   }
+  /* ===== v13: formulário de avaliação não pode alargar a página no celular ===== */
+  .recado-form { grid-template-columns: minmax(0, 1fr); }
+  .recado-form > *, .recado-form .campos > * { min-width: 0; max-width: 100%; }
+  .recado-form select, .recado-form input[type="text"], .recado-form textarea { width: 100%; }
+  .foto-campo { position: relative; overflow: hidden; }
+  .foto-input { left: 0; top: 0; }
+  .estrelas { min-inline-size: 0; flex-wrap: wrap; }
 </style>
 </head>
 <body>
@@ -611,7 +618,7 @@
         <input id="rec-cidade" type="text" autocomplete="address-level2" placeholder="Sua cidade (opcional)" maxlength="60">
       </div>
       <label for="rec-peca">Qual peça?</label>
-      <select id="rec-peca"><option value="">Qual peça você comprou? (opcional)</option></select>
+      <select id="rec-peca"><option value="">Qual peça? (opcional)</option></select>
       <fieldset class="estrelas" id="rec-nota">
         <legend>Sua nota</legend>
         <input type="radio" name="nota" id="nota-5" value="5" checked><label for="nota-5" title="5 estrelas">★</label>
