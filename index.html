@@ -309,6 +309,39 @@
   .pedir { border-radius: 0; text-transform: uppercase; letter-spacing: 0.16em; font-size: 13px; background: var(--anil); }
   .pedir:hover { background: var(--azul); }
   .ficha-fechar { border-radius: 0; }
+
+  /* ===== Identidade própria (v3) ===== */
+  .aviso { background: #DCE7F3; color: var(--anil); }
+  .aviso-trilho span::after { color: var(--azul); }
+
+  .hero-arco { border: 1px solid rgba(255,255,255,.75); border-bottom: 0; border-radius: 999px 999px 0 0; padding: 34px 30px 6px; }
+  .hero-texto h1 { font-size: clamp(42px, 11vw, 80px); }
+  .hero-assinatura { display: block !important; font-family: var(--display); font-style: italic; font-size: 18px !important; color: #fff !important; margin-top: 2px; }
+  .hero-botao { border-radius: 999px; }
+
+  .categorias { gap: 14px; padding: 18px 20px 0; grid-auto-columns: 40%; }
+  @media (min-width: 760px) { .categorias { gap: 22px; padding: 26px 20px 0; } }
+  .categoria { aspect-ratio: auto; background: none; color: var(--anil); overflow: visible; display: grid; gap: 10px; }
+  .categoria img { aspect-ratio: 3 / 4; height: auto; border-radius: 999px 999px 4px 4px; background: var(--bruma); }
+  .categoria::after { display: none; }
+  .categoria span { position: static; font-size: 21px; letter-spacing: 0.02em; text-transform: none; text-decoration: none; font-style: italic; text-align: center; }
+
+  .card-info { align-items: center; text-align: center; }
+  .card-info h3, .vitrine.destaque .card-info h3 { font-family: var(--display); font-size: 22px; font-weight: 500; letter-spacing: 0.01em; text-transform: none; line-height: 1.15; }
+  @media (min-width: 760px) { .vitrine.destaque .card-info h3 { font-size: 28px; } }
+  .card-bolinhas { justify-content: center; }
+  .card-info .card-acao { align-self: center; }
+  .card-acao { border-radius: 999px; background: #DCE7F3; color: var(--anil); letter-spacing: 0.16em; padding: 0 22px; }
+  .card:hover .card-acao { background: var(--anil); color: #fff; }
+  .card .selo, .ficha .selo { border-radius: 999px; background: var(--nuvem); color: var(--anil); left: 10px; top: 10px; }
+  .card-foto { border-radius: 4px; }
+  .vitrine, .vitrine.destaque { margin: 0; gap: 34px 12px; }
+
+  .pedir { border-radius: 999px; background: var(--azul); }
+  .pedir:hover { background: var(--anil); }
+  .ficha .dados h2 { font-family: var(--display); font-size: 32px; font-weight: 500; letter-spacing: 0; text-transform: none; }
+  .ficha-fechar { border-radius: 999px; }
+  .secao-titulo h2 { font-family: var(--display); font-size: clamp(32px, 8vw, 44px); letter-spacing: 0.02em; text-transform: none; font-weight: 500; }
 </style>
 </head>
 <body>
@@ -339,10 +372,10 @@
   <div class="hero-slide ativo"><img src="fotos/hannah-1.jpg" alt="Vestido Hannah"></div>
   <div class="hero-slide"><img src="fotos/raabe-bordo-1.jpg" alt="Conjunto Raabe bordô" loading="lazy"></div>
   <div class="hero-slide"><img src="fotos/raabe-amarelo-1.jpg" alt="Conjunto Raabe amarelo manteiga" loading="lazy"></div>
-  <div class="hero-lateral" aria-hidden="true"><span class="estrela">✦</span><span class="fio"></span><small>Feito à mão em Ilhabela</small></div>
   <div class="hero-texto">
     <p class="linha">Lançamentos 2026</p>
-    <h1>Coleção <em>Fim de Ano</em></h1>
+    <div class="hero-arco"><h1>Coleção <em>Fim de Ano</em></h1></div>
+    <p class="hero-assinatura">desenhado e costurado por Nathaly Coyado</p>
     <p>Peças novas, desenhadas e costuradas por Nathaly Coyado. Escolha a sua e peça direto pelo WhatsApp.</p>
     <a class="hero-botao" href="#lancamentos">Ver lançamentos</a>
   </div>
