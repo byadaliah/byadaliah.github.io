@@ -439,6 +439,13 @@
   @media (min-width: 760px) { .topo { margin-bottom: -150px; height: 150px; } .topo-dentro { padding: 12px 20px 0; }
     .menu a { text-shadow: 0 1px 8px rgba(30,40,50,.45); }
     .hero-slide:nth-of-type(1) img { object-position: center 14%; } .hero-slide:nth-of-type(2) img { object-position: center 16%; } .hero-slide:nth-of-type(3) img { object-position: center 13%; } }
+  /* ===== v10: título do topo aparece e some, a foto fica limpa a maior parte do tempo ===== */
+  .hero-texto { opacity: 0; transform: translateY(16px); transition: opacity 1s ease, transform 1.2s cubic-bezier(.2,.7,.2,1); pointer-events: none; }
+  .hero.mostra .hero-texto { opacity: 1; transform: none; pointer-events: auto; }
+  .hero::after { opacity: 0; transition: opacity 1s ease; }
+  .hero.mostra::after { opacity: 1; }
+  .hero-texto:focus-within { opacity: 1; transform: none; pointer-events: auto; }
+  .hero-pontos { z-index: 3; }
 </style>
 </head>
 <body>
@@ -900,16 +907,26 @@ document.querySelectorAll(".categoria[data-filtro]").forEach(function (c) {
   });
 })();
 
-/* Carrossel do topo */
+/* Carrossel do topo: a foto aparece limpa, o título surge e some antes da próxima foto */
 (function () {
+  const hero = document.querySelector(".hero");
   const slides = document.querySelectorAll(".hero-slide");
   const pontos = document.getElementById("hero-pontos");
-  let atual = 0, timer = null;
+  const TROCA = 7000, ENTRA = 2000, SAI = 5900;
+  let atual = 0, timer = null, tEntra = null, tSai = null;
   const parado = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  function titulo() {
+    clearTimeout(tEntra); clearTimeout(tSai);
+    if (parado) { hero.classList.add("mostra"); return; }
+    hero.classList.remove("mostra");
+    tEntra = setTimeout(function () { hero.classList.add("mostra"); }, ENTRA);
+    tSai = setTimeout(function () { hero.classList.remove("mostra"); }, SAI);
+  }
   function ir(i) {
     slides[atual].classList.remove("ativo"); pontos.children[atual].removeAttribute("aria-current");
     atual = (i + slides.length) % slides.length;
     slides[atual].classList.add("ativo"); pontos.children[atual].setAttribute("aria-current", "true");
+    titulo();
   }
   slides.forEach(function (_, i) {
     const b = document.createElement("button");
@@ -918,8 +935,12 @@ document.querySelectorAll(".categoria[data-filtro]").forEach(function (c) {
     b.addEventListener("click", function () { ir(i); reiniciar(); });
     pontos.appendChild(b);
   });
-  function reiniciar() { if (parado) return; clearInterval(timer); timer = setInterval(function () { ir(atual + 1); }, 5000); }
-  reiniciar();
+  /* se a pessoa tocar ou passar o mouse no título, ele fica até ela sair */
+  const texto = hero.querySelector(".hero-texto");
+  texto.addEventListener("focusin", function () { clearTimeout(tSai); clearInterval(timer); hero.classList.add("mostra"); });
+  texto.addEventListener("focusout", function () { reiniciar(); titulo(); });
+  function reiniciar() { if (parado) return; clearInterval(timer); timer = setInterval(function () { ir(atual + 1); }, TROCA); }
+  titulo(); reiniciar();
 })();
 
 /* WhatsApp flutuante */
