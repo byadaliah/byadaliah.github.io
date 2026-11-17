@@ -413,17 +413,14 @@
   .ficha-barra .marca-mini-img { height: 44px; }
   .ficha-fechar { color: #fff; border-color: rgba(255,255,255,.8); }
 
-  /* ===== Transição suave entre topo e foto (v6) ===== */
-  .topo { background: linear-gradient(180deg, rgba(59,140,176,0) 35%, rgba(59,140,176,.85) 85%, #3B8CB0 100%), #3A8FB4 url(marca/textura.jpg) center / cover; }
-  .hero::before { content: ""; position: absolute; left: 0; right: 0; top: 0; height: 46px; z-index: 1; pointer-events: none;
-    background: linear-gradient(180deg, #3B8CB0 0%, rgba(59,140,176,.55) 30%, rgba(59,140,176,.18) 65%, rgba(59,140,176,0) 100%); }
-  .hero-slide img { object-position: center 4%; }
-  @media (min-width: 760px) { .hero::before { height: 40px; } .hero-slide img { object-position: center 22%; } }
-  .recado-form .rec-foto { position: static; width: auto; height: auto; overflow: visible; clip: auto; display: flex; align-items: center; gap: 10px; font-size: 15px; color: var(--anil); cursor: pointer; min-height: 44px; }
-  .rec-foto input { position: static; width: 20px; height: 20px; accent-color: var(--azul); flex: none; padding: 0; }
-  .rec-foto-dica { font-size: 14px; color: var(--anil-suave); background: var(--nuvem); border-radius: 12px; padding: 10px 14px; margin-top: -4px; }
-  .rec-foto-dica[hidden] { display: none; }
-  .recado-img { width: 100%; aspect-ratio: 4 / 5; object-fit: cover; border-radius: 999px 999px 4px 4px; margin-bottom: 14px; }
+  /* ===== Transição suave entre topo e foto (v7): o azul se dissolve como névoa ===== */
+  .topo { position: relative; z-index: 3; background: #3A8FB4 url(marca/textura.jpg) center / cover; margin-bottom: -110px;
+    -webkit-mask-image: linear-gradient(180deg, #000 0, #000 calc(100% - 120px), rgba(0,0,0,.97) calc(100% - 110px), rgba(0,0,0,.9) calc(100% - 98px), rgba(0,0,0,.79) calc(100% - 85px), rgba(0,0,0,.65) calc(100% - 71px), rgba(0,0,0,.5) calc(100% - 57px), rgba(0,0,0,.35) calc(100% - 43px), rgba(0,0,0,.21) calc(100% - 30px), rgba(0,0,0,.1) calc(100% - 18px), rgba(0,0,0,.03) calc(100% - 8px), transparent 100%);
+            mask-image: linear-gradient(180deg, #000 0, #000 calc(100% - 120px), rgba(0,0,0,.97) calc(100% - 110px), rgba(0,0,0,.9) calc(100% - 98px), rgba(0,0,0,.79) calc(100% - 85px), rgba(0,0,0,.65) calc(100% - 71px), rgba(0,0,0,.5) calc(100% - 57px), rgba(0,0,0,.35) calc(100% - 43px), rgba(0,0,0,.21) calc(100% - 30px), rgba(0,0,0,.1) calc(100% - 18px), rgba(0,0,0,.03) calc(100% - 8px), transparent 100%); }
+  .topo-dentro { padding-bottom: 116px; }
+  .hero::before { content: none; }
+  .hero-slide img { object-position: center 0%; }
+  @media (min-width: 760px) { .topo { margin-bottom: -100px; } .topo-dentro { padding-bottom: 106px; } .hero-slide img { object-position: center 18%; } }
 </style>
 </head>
 <body>
