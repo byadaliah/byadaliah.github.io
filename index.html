@@ -14,18 +14,21 @@
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
 <meta name="twitter:card" content="summary_large_image">
+<link rel="icon" type="image/png" href="marca/favicon.png">
+<link rel="apple-touch-icon" href="marca/apple-touch-icon.png">
+<meta name="theme-color" content="#2E86AD">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Cormorant:ital,wght@0,400;0,500;1,400;1,500&family=Jost:wght@300;400;500&display=swap" rel="stylesheet">
 <style>
   :root {
     /* Layout: coluna única no celular (foto alta 4:5, nome, preço, botão); 3 colunas em tela larga. Mundo único, claro e azul. */
     color-scheme: light;
-    --ceu: #EDF2F8;        /* fundo */
+    --ceu: #EEF6F9;        /* fundo */
     --nuvem: #FFFFFF;      /* cartões */
-    --bruma: #D5E1EE;      /* linhas e fundos de foto */
-    --azul: #5A84B4;       /* acento */
-    --anil: #1E3350;       /* texto */
-    --anil-suave: #5C6F88; /* texto secundário */
+    --bruma: #D3E7EF;      /* linhas e fundos de foto */
+    --azul: #2E86AD;       /* acento */
+    --anil: #164A63;       /* texto */
+    --anil-suave: #4F7487; /* texto secundário */
     --display: "Cormorant", "Cormorant Garamond", Georgia, serif;
     --corpo: "Jost", "Helvetica Neue", Arial, sans-serif;
   }
@@ -62,7 +65,7 @@
   .peca { display: flex; flex-direction: column; gap: 14px; }
   .foto { position: relative; aspect-ratio: 2 / 3; background: var(--bruma); border-radius: 2px; overflow: hidden; }
   .foto img { width: 100%; height: 100%; object-fit: cover; }
-  .foto .sem-foto { position: absolute; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 6px; color: var(--anil-suave); background: linear-gradient(160deg, #E3EBF4 0%, #CBD9E9 100%); }
+  .foto .sem-foto { position: absolute; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 6px; color: var(--anil-suave); background: linear-gradient(160deg, #E3F0F5 0%, #C7DEE8 100%); }
   .sem-foto span { font-family: var(--display); font-style: italic; font-size: 26px; color: var(--anil); }
   .sem-foto small { font-size: 12px; letter-spacing: 0.14em; text-transform: uppercase; }
   .selo { position: absolute; left: 12px; top: 12px; background: var(--nuvem); color: var(--anil); font-size: 11px; letter-spacing: 0.16em; text-transform: uppercase; font-weight: 500; padding: 6px 10px; border-radius: 999px; }
@@ -88,7 +91,7 @@
   .cores .lista { display: flex; flex-wrap: wrap; gap: 8px; }
   .cores button { font: inherit; font-size: 15px; font-weight: 400; color: var(--anil); display: inline-flex; align-items: center; gap: 10px; min-height: 44px; padding: 6px 16px 6px 8px; background: var(--nuvem); border: 1px solid var(--bruma); border-radius: 999px; cursor: pointer; }
   .cores button[aria-pressed="true"] { border-color: var(--anil); box-shadow: inset 0 0 0 1px var(--anil); }
-  .cores .amostra { width: 28px; height: 28px; border-radius: 50%; border: 1px solid rgba(30, 51, 80, .18); }
+  .cores .amostra { width: 28px; height: 28px; border-radius: 50%; border: 1px solid rgba(22, 74, 99, .18); }
   .tamanhos[hidden] { display: none; }
   .tamanhos { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; }
   .tamanhos .rotulo { font-size: 12px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--anil-suave); margin-right: 4px; }
@@ -96,7 +99,7 @@
   .tamanhos button[aria-pressed="true"] { background: var(--anil); border-color: var(--anil); color: var(--nuvem); }
 
   .pedir { display: flex; align-items: center; justify-content: center; gap: 10px; min-height: 52px; padding: 12px 18px; background: var(--azul); color: #fff; text-decoration: none; font-weight: 500; font-size: 15px; letter-spacing: 0.04em; border-radius: 999px; transition: background .2s; }
-  .pedir:hover { background: #4A729F; }
+  .pedir:hover { background: #1E6F93; }
   .pedir svg { width: 20px; height: 20px; flex: none; }
   @media (prefers-reduced-motion: reduce) { .pedir { transition: none; } }
 
@@ -110,7 +113,7 @@
   .frete form { display: flex; flex-wrap: wrap; gap: 10px; }
   .frete label { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); }
   .frete input { font: inherit; font-size: 18px; font-weight: 400; letter-spacing: 0.06em; font-variant-numeric: tabular-nums; color: var(--anil); flex: 1 1 160px; min-width: 0; height: 52px; padding: 0 18px; border: 1px solid var(--bruma); border-radius: 999px; background: var(--ceu); }
-  .frete input::placeholder { color: #93A3B8; }
+  .frete input::placeholder { color: #8FAFC0; }
   .frete input:focus-visible { outline: 2px solid var(--anil); outline-offset: 2px; }
   .frete form button { font: inherit; font-weight: 500; font-size: 15px; letter-spacing: 0.04em; height: 52px; padding: 0 26px; border: 0; border-radius: 999px; background: var(--anil); color: #fff; cursor: pointer; flex: 0 0 auto; }
   .resultado { border-top: 1px solid var(--bruma); padding-top: 14px; display: grid; gap: 2px; }
@@ -152,7 +155,7 @@
   .aviso { background: var(--anil); color: #fff; overflow: hidden; white-space: nowrap; font-size: 11px; letter-spacing: 0.24em; text-transform: uppercase; font-weight: 400; }
   .aviso-trilho { display: inline-flex; animation: correr 38s linear infinite; }
   .aviso-trilho span { padding: 10px 0; display: inline-flex; align-items: center; }
-  .aviso-trilho span::after { content: "✦"; margin: 0 22px; color: #9DB8D8; font-size: 9px; }
+  .aviso-trilho span::after { content: "✦"; margin: 0 22px; color: #2E86AD; font-size: 9px; }
   @keyframes correr { from { transform: translateX(0); } to { transform: translateX(-50%); } }
   @media (prefers-reduced-motion: reduce) { .aviso-trilho { animation: none; } }
 
@@ -169,7 +172,7 @@
   .hero-slide { position: absolute; inset: 0; opacity: 0; transition: opacity .9s ease; }
   .hero-slide.ativo { opacity: 1; }
   .hero-slide img { width: 100%; height: 100%; object-fit: cover; object-position: center 28%; }
-  .hero::after { content: ""; position: absolute; inset: 0; background: linear-gradient(180deg, rgba(30,51,80,0) 45%, rgba(30,51,80,.55) 100%); pointer-events: none; }
+  .hero::after { content: ""; position: absolute; inset: 0; background: linear-gradient(180deg, rgba(22,74,99,0) 45%, rgba(22,74,99,.55) 100%); pointer-events: none; }
   .hero-texto { position: absolute; left: 0; right: 0; bottom: 0; z-index: 2; color: #fff; text-align: center; padding: 0 24px 54px; display: grid; justify-items: center; gap: 10px; }
   .hero-texto .linha { font-size: 11px; letter-spacing: 0.3em; text-transform: uppercase; font-weight: 400; }
   .hero-texto h1 { font-family: var(--display); font-weight: 400; font-size: clamp(40px, 10vw, 72px); line-height: 1; text-wrap: balance; }
@@ -206,7 +209,7 @@
   .vitrine.destaque .card-info h3 { font-size: 26px; }
   .card-info .card-preco { font-size: 15px; font-variant-numeric: tabular-nums; font-weight: 400; }
   .card-bolinhas { display: flex; justify-content: center; gap: 6px; margin-top: 4px; }
-  .card-bolinhas i { width: 14px; height: 14px; border-radius: 50%; border: 1px solid rgba(30,51,80,.2); }
+  .card-bolinhas i { width: 14px; height: 14px; border-radius: 50%; border: 1px solid rgba(22,74,99,.2); }
   .card-acao { justify-self: center; margin-top: 8px; display: inline-flex; align-items: center; min-height: 40px; padding: 0 22px; border: 1px solid var(--anil); border-radius: 999px; font-size: 11px; letter-spacing: 0.2em; text-transform: uppercase; font-weight: 500; }
   .card:hover .card-acao { background: var(--anil); color: #fff; }
 
@@ -227,7 +230,7 @@
   .ficha .dados h2 { font-size: 34px; }
   #fichas { display: none; }
 
-  .zap-flutuante { position: fixed; right: 18px; bottom: 18px; z-index: 40; width: 56px; height: 56px; border-radius: 50%; background: #25D366; color: #fff; display: grid; place-items: center; box-shadow: 0 6px 20px rgba(30,51,80,.25); }
+  .zap-flutuante { position: fixed; right: 18px; bottom: 18px; z-index: 40; width: 56px; height: 56px; border-radius: 50%; background: #25D366; color: #fff; display: grid; place-items: center; box-shadow: 0 6px 20px rgba(22,74,99,.25); }
   .zap-flutuante svg { width: 30px; height: 30px; }
   body.ficha-aberta { overflow: hidden; }
   body.ficha-aberta .zap-flutuante { display: none; }
@@ -247,7 +250,7 @@
 
   .hero { aspect-ratio: 4 / 5; }
   @media (min-width: 760px) { .hero { aspect-ratio: 16 / 7; } }
-  .hero::after { background: linear-gradient(180deg, rgba(30,51,80,.10) 0%, rgba(30,51,80,0) 30%, rgba(30,51,80,0) 55%, rgba(30,51,80,.45) 100%); }
+  .hero::after { background: linear-gradient(180deg, rgba(22,74,99,.10) 0%, rgba(22,74,99,0) 30%, rgba(22,74,99,0) 55%, rgba(22,74,99,.45) 100%); }
   .hero-lateral { position: absolute; z-index: 2; left: 16px; top: 22px; display: grid; justify-items: start; gap: 10px; color: #fff; }
   .hero-lateral .estrela { font-size: 14px; line-height: 1; margin-left: -4px; }
   .hero-lateral .fio { width: 1px; height: 120px; background: rgba(255,255,255,.8); }
@@ -267,7 +270,7 @@
   .categoria { position: relative; aspect-ratio: 4 / 5; overflow: hidden; scroll-snap-align: start; display: block; color: #fff; text-decoration: none; background: var(--bruma); }
   .categoria img { width: 100%; height: 100%; object-fit: cover; object-position: center 22%; transition: transform .6s ease; }
   .categoria:hover img { transform: scale(1.04); }
-  .categoria::after { content: ""; position: absolute; inset: 0; background: linear-gradient(180deg, rgba(30,51,80,0) 50%, rgba(30,51,80,.5) 100%); }
+  .categoria::after { content: ""; position: absolute; inset: 0; background: linear-gradient(180deg, rgba(22,74,99,0) 50%, rgba(22,74,99,.5) 100%); }
   .categoria span { position: absolute; z-index: 2; left: 0; right: 0; bottom: 16px; text-align: center; font-family: var(--display); font-size: 20px; letter-spacing: 0.06em; text-transform: uppercase; text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: 6px; }
   @media (prefers-reduced-motion: reduce) { .categoria img { transition: none; } .categoria:hover img { transform: none; } }
 
@@ -311,7 +314,7 @@
   .ficha-fechar { border-radius: 0; }
 
   /* ===== Identidade própria (v3) ===== */
-  .aviso { background: #DCE7F3; color: var(--anil); }
+  .aviso { background: #DCEEF5; color: var(--anil); }
   .aviso-trilho span::after { color: var(--azul); }
 
   .hero-arco { border: 1px solid rgba(255,255,255,.75); border-bottom: 0; border-radius: 999px 999px 0 0; padding: 34px 30px 6px; }
@@ -331,7 +334,7 @@
   @media (min-width: 760px) { .vitrine.destaque .card-info h3 { font-size: 28px; } }
   .card-bolinhas { justify-content: center; }
   .card-info .card-acao { align-self: center; }
-  .card-acao { border-radius: 999px; background: #DCE7F3; color: var(--anil); letter-spacing: 0.16em; padding: 0 22px; }
+  .card-acao { border-radius: 999px; background: #DCEEF5; color: var(--anil); letter-spacing: 0.16em; padding: 0 22px; }
   .card:hover .card-acao { background: var(--anil); color: #fff; }
   .card .selo, .ficha .selo { border-radius: 999px; background: var(--nuvem); color: var(--anil); left: 10px; top: 10px; }
   .card-foto { border-radius: 4px; }
@@ -342,22 +345,34 @@
   .ficha .dados h2 { font-family: var(--display); font-size: 32px; font-weight: 500; letter-spacing: 0; text-transform: none; }
   .ficha-fechar { border-radius: 999px; }
   .secao-titulo h2 { font-family: var(--display); font-size: clamp(32px, 8vw, 44px); letter-spacing: 0.02em; text-transform: none; font-weight: 500; }
+
+  /* ===== Identidade do logo (v4) ===== */
+  .topo-dentro { padding: 18px 20px 12px; }
+  .marca-logo img { height: 140px; width: auto; display: block; }
+  @media (min-width: 760px) { .marca-logo img { height: 150px; } }
+  .marca-mini-img { height: 40px; width: auto; }
+  .aviso { background: #DCEEF5; color: var(--anil); }
+  .hero::after { background: linear-gradient(180deg, rgba(22,74,99,.12) 0%, rgba(22,74,99,0) 30%, rgba(22,74,99,0) 52%, rgba(22,74,99,.55) 100%); }
+  .hero-arco { border-color: rgba(255,255,255,.85); }
+  footer { align-items: center; }
+  .rodape-logo { height: 56px; width: auto; flex-basis: 100%; max-width: 70px; object-fit: contain; }
+  footer { flex-direction: column; align-items: center; text-align: center; gap: 6px; padding-top: 28px; border-top: 1px solid var(--bruma); }
+  .rodape-logo { max-width: none; flex-basis: auto; height: 80px; }
 </style>
 </head>
 <body>
-<div class="aviso" role="note" aria-label="Moda modesta feita à mão. Enviamos para todo o Brasil. Entrega grátis em Ilhabela. Peça pelo WhatsApp.">
+<div class="aviso" role="note" aria-label="Moda com propósito, feita à mão em Ilhabela. Enviamos para todo o Brasil. Entrega grátis em Ilhabela. Peça pelo WhatsApp.">
   <div class="aviso-trilho" aria-hidden="true">
-    <span>Moda modesta feita à mão</span><span>Enviamos para todo o Brasil</span><span>Entrega grátis em Ilhabela</span><span>Peça pelo WhatsApp</span>
-    <span>Moda modesta feita à mão</span><span>Enviamos para todo o Brasil</span><span>Entrega grátis em Ilhabela</span><span>Peça pelo WhatsApp</span>
-    <span>Moda modesta feita à mão</span><span>Enviamos para todo o Brasil</span><span>Entrega grátis em Ilhabela</span><span>Peça pelo WhatsApp</span>
-    <span>Moda modesta feita à mão</span><span>Enviamos para todo o Brasil</span><span>Entrega grátis em Ilhabela</span><span>Peça pelo WhatsApp</span>
+    <span>Moda com propósito</span><span>Feita à mão em Ilhabela</span><span>Enviamos para todo o Brasil</span><span>Entrega grátis em Ilhabela</span><span>Peça pelo WhatsApp</span>
+    <span>Moda com propósito</span><span>Feita à mão em Ilhabela</span><span>Enviamos para todo o Brasil</span><span>Entrega grátis em Ilhabela</span><span>Peça pelo WhatsApp</span>
+    <span>Moda com propósito</span><span>Feita à mão em Ilhabela</span><span>Enviamos para todo o Brasil</span><span>Entrega grátis em Ilhabela</span><span>Peça pelo WhatsApp</span>
+    <span>Moda com propósito</span><span>Feita à mão em Ilhabela</span><span>Enviamos para todo o Brasil</span><span>Entrega grátis em Ilhabela</span><span>Peça pelo WhatsApp</span>
   </div>
 </div>
 
 <header class="topo">
   <div class="topo-dentro">
-    <a class="marca" href="#inicio">Adaliah</a>
-    <span class="marca-sub">Moda modesta</span>
+    <a class="marca-logo" href="#inicio"><img src="marca/logo-azul.png" alt="Adaliah, moda com propósito" width="900" height="723"></a>
     <nav class="menu" aria-label="Seções">
       <a href="#lancamentos">Lançamentos</a>
       <a href="#pecas">Peças</a>
@@ -445,14 +460,15 @@
   </section>
 
   <footer>
-    <span>Adaliah, moda modesta</span>
+    <img class="rodape-logo" src="marca/logo-azul.png" alt="Adaliah" loading="lazy">
+    <span>Adaliah · moda com propósito</span>
     <span>Peças feitas à mão, em quantidade limitada</span>
   </footer>
 </div>
 
 <div class="ficha" id="ficha" role="dialog" aria-modal="true" aria-label="Detalhes da peça" hidden>
   <div class="ficha-barra"><div>
-    <span class="marca-mini">Adaliah</span>
+    <img class="marca-mini-img" src="marca/logo-azul.png" alt="Adaliah">
     <button type="button" class="ficha-fechar" id="ficha-fechar">← Voltar ao catálogo</button>
   </div></div>
   <div class="ficha-corpo" id="ficha-corpo"></div>
