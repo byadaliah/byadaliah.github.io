@@ -500,6 +500,9 @@
   .foto-campo { position: relative; overflow: hidden; }
   .foto-input { left: 0; top: 0; }
   .estrelas { min-inline-size: 0; flex-wrap: wrap; }
+  /* ===== v14: no computador as categorias cabem na tela (sem rolagem para o lado) ===== */
+  @media (min-width: 760px) { .categorias { grid-auto-columns: minmax(0, 1fr); max-width: 980px; overflow: hidden; } }
+  html, body { overflow-x: clip; }
 </style>
 </head>
 <body>
